@@ -1,0 +1,19 @@
+<div id="left">
+  <div class="node radius" id="node_0"></div>
+  <div class="node" id="node_1"></div>
+</div>
+
+<div id="right">
+  <p>拖拉到此区域</p>
+<div  *ngFor="let node1 of nodes[0]"
+      class="node radius "
+      [ngStyle] =node1.style
+
+      id="{{node1.id}}">
+  <input  [(ngModel)] = "node1.name" >
+</div>
+
+<div  *ngFor="let node2 of nodes[1]"  class="node" [ngStyle] =node2.style id="{{node2.id}}">
+  <input  [(ngModel)] = "node2.name">
+</div>
+</div>
