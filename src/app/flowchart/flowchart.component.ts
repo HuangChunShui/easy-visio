@@ -71,7 +71,11 @@ export class FlowchartComponent implements OnInit {
        }
      });
 
-     $('#' + id).resizable();
+     $('#' + id).resizable({
+       stop: function( event, e ) {
+         jsPlumb.repaintEverything();
+       }
+     });
    }
 
   mouseover(id) {
