@@ -5,6 +5,9 @@ import {Component, NgZone, OnInit} from '@angular/core';
 })
 export class FlowchartComponent implements OnInit {
   isFlowchartActive = true;
+  showMenu = false;
+  cur_node_id = '';
+  right_menu_style = {};
   nodes = [[], [], [], []];
   hollowCircle = {
     endpoint: ['Dot', { radius: 5 }],  // 端点的形状
@@ -26,7 +29,29 @@ export class FlowchartComponent implements OnInit {
   constructor( private zone: NgZone) {
 
   }
+
+  right_click(e, node_id) {   // 右键， 触发显示菜单
+    e.preventDefault();
+    this.right_menu_style = {left: e.clientX + 'px', top: e.clientY + 'px'};
+    this.cur_node_id = node_id;
+    this.showMenu = true;
+  }
+
+  menu_click(op_type) {  // 菜单点击
+  }
+
+  deleteNode(id) {
+  }
+
+  copyNode() {
+
+  }
+
    ngOnInit() {
+     window.onclick = (e) => {
+       this.right_menu_style = {};
+       this.showMenu = false;
+     };
      $('#left .node').draggable({
        revert: 'invalid', // 当未被放置时，条目会还原回它的初始位置
        containment: 'document',
@@ -78,10 +103,10 @@ export class FlowchartComponent implements OnInit {
      });
    }
 
-  mouseover(id) {
+/*  mouseover(id) {
     jsPlumb.deleteEveryEndpoint();
     jsPlumb.repaintEverything();
-  }
+  }*/
 
    uuid() {
      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

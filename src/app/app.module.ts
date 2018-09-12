@@ -9,10 +9,11 @@ import {HomeNavComponent} from './home/nav/nav.component';
 import {FlowchartComponent} from './flowchart/flowchart.component';
 import {FlowchartNavComponent} from './flowchart/nav/nav.component';
 import {FormsModule} from '@angular/forms';
+import {ContextMenuComponent} from './flowchart/context-menu.component';
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent
+    AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent
   ],
   imports: [
     BrowserModule,
