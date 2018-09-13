@@ -13,8 +13,7 @@ export class ContextMenuComponent implements OnInit {
 
    }
 
-   click(op_type) {
-     this.operate.emit(op_type);
+   click(op_type, e) {
+    this.operate.emit({op_type: op_type, ele: e});
    }
-
 }

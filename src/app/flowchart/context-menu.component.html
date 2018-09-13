@@ -1,4 +1,5 @@
 <div id="menu" [ngStyle]= custom_style>
-  <div class="menu" (click)="click('copy')">复制</div>
-  <div class="menu" (click) = "click('delete')">删除</div>
+    <div class="menu" (click)="click('copy')">复制</div>
+    <div class="menu" (click) = "click('paste',$event)">粘贴</div>
+    <div class="menu" (click) = "click('delete')">删除</div>
 </div>

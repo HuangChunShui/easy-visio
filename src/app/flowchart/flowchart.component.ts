@@ -6,8 +6,9 @@ import {Component, NgZone, OnInit} from '@angular/core';
 export class FlowchartComponent implements OnInit {
   isFlowchartActive = true;
   showMenu = false;
-  cur_node_id = '';
-  right_menu_style = {};
+  cur_node = {id: '', model_id: '', style: { left: '', top: ''}};
+  copy_node = {id: '', name: '', model_id: '', style: { left: '', top: ''}};
+  right_menu_style = {left: '', top: ''};
   nodes = [[], [], [], []];
   hollowCircle = {
     endpoint: ['Dot', { radius: 5 }],  // 端点的形状
@@ -30,57 +31,115 @@ export class FlowchartComponent implements OnInit {
 
   }
 
-  right_click(e, node_id) {   // 右键， 触发显示菜单
+  right_click(e, node) {   // 右键， 触发显示菜单
     e.preventDefault();
+    e.stopPropagation();    // stop global event
     this.right_menu_style = {left: e.clientX + 'px', top: e.clientY + 'px'};
-    this.cur_node_id = node_id;
+    this.cur_node = node;
     this.showMenu = true;
   }
 
-  menu_click(op_type) {  // 菜单点击
+  menu_click(op_obj) {  // 菜单点击
+    if (op_obj.op_type === 'delete') {
+      this.deleteNode();
+    }
+    if (op_obj.op_type === 'copy') {
+      this.copyNode();
+    }
+    if (op_obj.op_type === 'paste') {
+      this.pasteNode(op_obj.ele);
+    }
   }
 
-  deleteNode(id) {
+  deleteNode() {
+    jsPlumb.removeAllEndpoints($('#' + this.cur_node.id));
+    this.nodes[this.cur_node.model_id] =  this.nodes[this.cur_node.model_id].filter(
+      (e: any) =>  e.id !== this.cur_node.id);
+    $('#' + this.cur_node.id).remove();
+    jsPlumb.repaintEverything();
   }
 
   copyNode() {
-
+    const id = this.uuid();
+    this.copy_node = {
+      id : this.uuid(),
+      name : '',
+      model_id: this.cur_node.model_id,
+      style: {'top': this.cur_node.style.top , 'left': this.cur_node.style.left}};
   }
 
-   ngOnInit() {
-     window.onclick = (e) => {
-       this.right_menu_style = {};
-       this.showMenu = false;
-     };
-     $('#left .node').draggable({
-       revert: 'invalid', // 当未被放置时，条目会还原回它的初始位置
-       containment: 'document',
-       helper: 'clone',
-       scope: 'ss',
-     });
-     $('#right').droppable({
-       scope: 'ss',
-       drop:  (event, ui: any) => {
-         this.CreateModel(ui, $('#right'));
-       }
-     });
-   }
+  pasteNode(e) {
+    this.showMenu = false;
+    this.copy_node.style = this.right_menu_style;
+    this.nodes[this.copy_node.model_id].push(this.copy_node);
+    this.zone.run(() => {});
+    const id = this.copy_node.id;
+    jsPlumb.addEndpoint(id, { anchor: 'Right'}, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Left' }, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Top' }, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, this.hollowCircle);
+    jsPlumb.draggable(id);
 
-   CreateModel(ui, selector) {
-     // 1.1 添加html模型
-     const modelid = $(ui.draggable).attr('id').split('_')[1];
-     const left = ui.offset.left - $(selector).offset().left + 'px';
-     const top = ui.offset.top - $(selector).offset().top + 'px';
-     const id  = this.uuid();
-     this.nodes[parseInt(modelid, 10)].push({id : id, name: '', style: {'top': top , 'left': left}});
-     this.zone.run(() => {});
-     // jsPlumb.setContainer($("#divCenter"));
-     // 1.2 添加连接点
-     jsPlumb.addEndpoint(id, { anchor: 'Right'}, this.hollowCircle);
-     jsPlumb.addEndpoint(id, { anchor: 'Left' }, this.hollowCircle);
-     jsPlumb.addEndpoint(id, { anchor: 'Top' }, this.hollowCircle);
-     jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, this.hollowCircle);
-     jsPlumb.draggable(id);
+    // 1.3 ?????draggable?resizable
+    $('#' + id).draggable({
+      containment: 'parent',
+      start: function () {
+        jsPlumb.repaintEverything();
+      },
+      drag:  (event, _ui) => {
+        jsPlumb.repaintEverything();
+      },
+      stop: function () {
+        jsPlumb.repaintEverything();
+      }
+    });
+
+    $('#' + id).resizable({
+      stop: function( event, ui) {
+        jsPlumb.repaintEverything();
+      }
+    });
+  }
+
+  ngOnInit() {
+    window.onclick = (e) => {
+      // this.right_menu_style = {};
+      // this.cur_node = {id: '', model_id: '', style: {top: '', left: ''}};
+      this.showMenu = false;
+    };
+    $('#left .node').draggable({
+      revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
+      containment: 'document',
+      helper: 'clone',
+      scope: 'ss',
+    });
+    $('#right').droppable({
+      scope: 'ss',
+      drop:  (event, ui: any) => {
+        this.CreateModel(ui, $('#right'));
+      }
+    });
+  }
+
+  CreateModel(ui, selector) {
+    // 1.1 添加html模型
+    const modelid = $(ui.draggable).attr('id').split('_')[1];
+    const left = ui.offset.left - $(selector).offset().left + 'px';
+    const top = ui.offset.top - $(selector).offset().top + 'px';
+    const id  = this.uuid();
+    this.nodes[parseInt(modelid, 10)].push({
+      id : id,
+      name: '',
+      model_id: modelid,
+      style: {'top': top , 'left': left}});
+    this.zone.run(() => {});
+    // jsPlumb.setContainer($("#divCenter"));
+    // 1.2 添加连接点
+    jsPlumb.addEndpoint(id, { anchor: 'Right'}, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Left' }, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Top' }, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, this.hollowCircle);
+    jsPlumb.draggable(id);
 
      // 1.3 注册实体可draggable和resizable
      $('#' + id).draggable({

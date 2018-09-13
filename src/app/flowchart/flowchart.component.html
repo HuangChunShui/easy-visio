@@ -3,18 +3,18 @@
   <div class="node" id="node_1"></div>
 </div>
 
-<div id="right">
+<div id="right" (contextmenu)="right_click($event,null)">
   <p>拖拉到此区域</p>
 <div  *ngFor="let node1 of nodes[0]"
       class="node radius "
       [ngStyle] =node1.style
-      (contextmenu)="right_click($event,node1.id)"
+      (contextmenu)="right_click($event,node1)"
       id="{{node1.id}}">
   <input  [(ngModel)] = "node1.name">
 </div>
 
 <div  *ngFor="let node2 of nodes[1]"
-      (contextmenu)="right_click($event,node2.id)"
+      (contextmenu)="right_click($event,node2)"
       class="node" [ngStyle] =node2.style id="{{node2.id}}">
   <input  [(ngModel)] = "node2.name">
 </div>
