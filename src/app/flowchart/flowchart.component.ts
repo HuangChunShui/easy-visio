@@ -1,32 +1,15 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import { hollowCircle } from './flowchart.conf';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
 })
 export class FlowchartComponent implements OnInit {
-  isFlowchartActive = true;
   showMenu = false;
-  cur_node = {id: '', model_id: '', style: { left: '', top: ''}};
+  cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
   copy_node = {id: '', name: '', model_id: '', style: { left: '', top: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [[], [], [], []];
-  hollowCircle = {
-    endpoint: ['Dot', { radius: 5 }],  // 端点的形状
-    // connectorStyle: connectorPaintStyle,// 连接线的颜色，大小样式
-    // connectorHoverStyle: connectorHoverStyle,
-    paintStyle: {
-      strokeWidth: 1,
-      fill: 'blue',
-      outlineStroke: 'white',
-    },		// 端点的颜色样式
-    anchor: 'AutoDefault',
-    isSource: true,	// 是否可以拖动（作为连线起点）
-    connector: 'Straight',
-    // 连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
-    isTarget: true,	// 是否可以放置（连线终点）
-    maxConnections: -1,	// 设置连接点最多可以连接几条线
-    connectorOverlays: [['Arrow', { width: 5, length: 5, location: 1 }]]
-  };
   constructor( private zone: NgZone, public changeDetectorRef: ChangeDetectorRef) {
 
   }
@@ -34,11 +17,17 @@ export class FlowchartComponent implements OnInit {
   right_click(e, node) {   // 右键， 触发显示菜单
     e.preventDefault();
     e.stopPropagation();    // stop global event
-    const l = e.clientX - 215;
-    const r = e.clientY - 50;
+    if (!node) {  //   paste
+      this.cur_node.style.left = e.clientX - 225 + 'px';
+      this.cur_node.style.top = e.clientY  - 60 + 'px';
+    } else {     // copy delete
+      this.cur_node = JSON.parse(JSON.stringify(node));
+      const width = $('#' + node.id).width() + 'px';
+      const height = $('#' + node.id).height() + 'px';
+      this.cur_node.style.width = width;
+      this.cur_node.style.height = height;
+    }
     this.right_menu_style = {left: e.clientX + 'px', top: e.clientY + 'px'};
-    console.log(this.right_menu_style);
-    this.cur_node = node;
     this.showMenu = true;
   }
 
@@ -63,47 +52,47 @@ export class FlowchartComponent implements OnInit {
   }
 
   copyNode() {
-    const id = this.uuid();
     this.copy_node = {
       id : this.uuid(),
       name : '',
       model_id: this.cur_node.model_id,
-      style: {'top': this.right_menu_style.top , 'left': this.right_menu_style.left}};
+      style: this.cur_node.style
+    };
   }
 
   pasteNode(e) {
     this.showMenu = false;
-    this.right_menu_style.left = parseInt(this.right_menu_style.left.split('px')[0], 10) - 215 + 'px';
-    this.right_menu_style.top = parseInt(this.right_menu_style.top.split('px')[0], 10) - 50 + 'px';
-    this.copy_node.style = this.right_menu_style;
+    // this.right_menu_style.left = parseInt(this.right_menu_style.left.split('px')[0], 10) - 225 + 'px';
+    // this.right_menu_style.top = parseInt(this.right_menu_style.top.split('px')[0], 10) - 60 + 'px';
+    this.copy_node.style = this.cur_node.style;
     this.nodes[this.copy_node.model_id].push(this.copy_node);
     this.changeDetectorRef.detectChanges();
-      const id = this.copy_node.id;
-      jsPlumb.addEndpoint(id, { anchor: 'Right'}, this.hollowCircle);
-      jsPlumb.addEndpoint(id, { anchor: 'Left' }, this.hollowCircle);
-      jsPlumb.addEndpoint(id, { anchor: 'Top' }, this.hollowCircle);
-      jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, this.hollowCircle);
-      jsPlumb.draggable(id);
+    const id = this.copy_node.id;
+    jsPlumb.addEndpoint(id, { anchor: 'Right'}, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Left' }, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Top' }, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, hollowCircle);
+    jsPlumb.draggable(id);
 
-      // 1.3 ?????draggable?resizable
-      $('#' + id).draggable({
-        containment: 'parent',
-        start: function () {
-          jsPlumb.repaintEverything();
-        },
-        drag:  (event, _ui) => {
-          jsPlumb.repaintEverything();
-        },
-        stop: function () {
-          jsPlumb.repaintEverything();
-        }
-      });
+    // 1.3 ?????draggable?resizable
+    $('#' + id).draggable({
+      containment: 'parent',
+      start: function () {
+        jsPlumb.repaintEverything();
+      },
+      drag:  (event, _ui) => {
+        jsPlumb.repaintEverything();
+      },
+      stop: function () {
+        jsPlumb.repaintEverything();
+      }
+    });
 
-      $('#' + id).resizable({
-        stop: function( event, ui) {
-          jsPlumb.repaintEverything();
-        }
-      });
+    $('#' + id).resizable({
+      stop: function( event, ui) {
+        jsPlumb.repaintEverything();
+      }
+    });
   }
 
   ngOnInit() {
@@ -140,42 +129,37 @@ export class FlowchartComponent implements OnInit {
     this.zone.run(() => {});
     // jsPlumb.setContainer($("#divCenter"));
     // 1.2 添加连接点
-    jsPlumb.addEndpoint(id, { anchor: 'Right'}, this.hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Left' }, this.hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Top' }, this.hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, this.hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Right'}, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Left' }, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Top' }, hollowCircle);
+    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, hollowCircle);
     jsPlumb.draggable(id);
 
-     // 1.3 注册实体可draggable和resizable
-     $('#' + id).draggable({
-       containment: 'parent',
-       start: function () {
-         jsPlumb.repaintEverything();
-       },
-       drag:  (event, _ui) => {
-         jsPlumb.repaintEverything();
-       },
-       stop: function () {
-         jsPlumb.repaintEverything();
-       }
-     });
+    // 1.3 注册实体可draggable和resizable
+    $('#' + id).draggable({
+      containment: 'parent',
+      start: function () {
+        jsPlumb.repaintEverything();
+      },
+      drag:  (event, _ui) => {
+        jsPlumb.repaintEverything();
+      },
+      stop: function () {
+        jsPlumb.repaintEverything();
+      }
+    });
 
-     $('#' + id).resizable({
-       stop: function( event, e ) {
-         jsPlumb.repaintEverything();
-       }
-     });
-   }
+    $('#' + id).resizable({
+      stop: function( event, e ) {
+        jsPlumb.repaintEverything();
+      }
+    });
+  }
 
-/*  mouseover(id) {
-    jsPlumb.deleteEveryEndpoint();
-    jsPlumb.repaintEverything();
-  }*/
-
-   uuid() {
-     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-       const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-       return v.toString(16);
-     });
+  uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }
