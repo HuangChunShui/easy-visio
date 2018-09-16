@@ -1,5 +1,1 @@
-<div id="menu" [ngStyle]= custom_style>
-    <div class="menu" (click)="click('copy',$event)">复制</div>
-    <div class="menu" (click) = "click('paste',$event)">粘贴</div>
-    <div class="menu" (click) = "click('delete')">删除</div>
-</div>
+<ul id="menu" [ngStyle]= custom_style><li  (click)="click('copy',$event)">复制</li><li  (click) = "click('paste',$event)">粘贴</li><li  (click) = "click('delete')">删除</li></ul>
