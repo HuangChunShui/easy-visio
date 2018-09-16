@@ -1,6 +1,9 @@
 <div id="left">
-  <div class="node radius" id="node_0"></div>
-  <div class="node" id="node_1"></div>
+  <div class="model radius"   id="node_0"></div>
+  <div class="model rect"     id="node_1"></div>
+  <div class="model rect1"     id="node_4"></div>
+  <div class="model circle"   id="node_3"></div>
+  <div class="model square"   id="node_2"></div>
 </div>
 
 <div id="right" (contextmenu)="right_click_on_blank($event,null)">
@@ -14,8 +17,26 @@
 
   <div  *ngFor="let node2 of nodes[1]"
         (contextmenu)="right_click_on_node($event,node2)"
-        class="node" [ngStyle] =node2.style id="{{node2.id}}">
+        class="node rect" [ngStyle] =node2.style id="{{node2.id}}">
     <textarea  [(ngModel)] = "node2.name"></textarea>
+  </div>
+
+  <div  *ngFor="let node3 of nodes[2]"
+        (contextmenu)="right_click_on_node($event,node3)"
+        class="node square" [ngStyle] =node3.style id="{{node3.id}}">
+    <textarea  [(ngModel)] = "node3.name"></textarea>
+  </div>
+
+  <div  *ngFor="let node4 of nodes[3]"
+        (contextmenu)="right_click_on_node($event,node4)"
+        class="node circle" [ngStyle] =node4.style id="{{node4.id}}">
+    <textarea  [(ngModel)] = "node4.name"></textarea>
+  </div>
+
+  <div  *ngFor="let node5 of nodes[4]"
+        (contextmenu)="right_click_on_node($event,node5)"
+        class="node rect1" [ngStyle] =node5.style id="{{node5.id}}">
+    <textarea  [(ngModel)] = "node5.name"></textarea>
   </div>
 </div>
 <app-context-menu *ngIf="showMenu"

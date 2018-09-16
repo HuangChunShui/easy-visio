@@ -16,5 +16,5 @@ export let hollowCircle = {
   // 连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
   isTarget: true,  // 是否可以放置（连线终点）
   maxConnections: -1,  // 设置连接点最多可以连接几条线
-  connectorOverlays: [['Arrow', { width: 5, length: 5, location: 1 }]]
+  connectorOverlays: [['Arrow', { width: 8, length: 8, location: 1 }]]
 };

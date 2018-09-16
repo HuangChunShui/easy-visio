@@ -11,7 +11,7 @@ export class FlowchartComponent implements OnInit {
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
   copy_node = {id: '', name: '', model_id: '', style: { left: '', top: '', width: '', height: ''}};
   right_menu_style = {left: '', top: ''};
-  nodes = [[], [], [], []];
+  nodes = [];
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -87,7 +87,7 @@ export class FlowchartComponent implements OnInit {
     window.onclick = (e) => {
       this.showMenu = false;
     };
-    $('#left .node').draggable({
+    $('#left .model').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
       helper: 'clone',
@@ -106,6 +106,7 @@ export class FlowchartComponent implements OnInit {
     const left = ui.offset.left - $(selector).offset().left + 'px';
     const top = ui.offset.top - $(selector).offset().top + 'px';
     const id  = this.uuid();
+    this.nodes[parseInt(modelid, 10)] = [];
     this.nodes[parseInt(modelid, 10)].push({
       id : id,
       name: '',
