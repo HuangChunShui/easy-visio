@@ -9,13 +9,13 @@
         [ngStyle] =node1.style
         (contextmenu)="right_click_on_node($event,node1)"
         id="{{node1.id}}">
-    <input  [(ngModel)] = "node1.name">
+    <textarea  [(ngModel)] = "node1.name"></textarea>
   </div>
 
   <div  *ngFor="let node2 of nodes[1]"
         (contextmenu)="right_click_on_node($event,node2)"
         class="node" [ngStyle] =node2.style id="{{node2.id}}">
-    <input  [(ngModel)] = "node2.name">
+    <textarea  [(ngModel)] = "node2.name"></textarea>
   </div>
 </div>
 <app-context-menu *ngIf="showMenu"
