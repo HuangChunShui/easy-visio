@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import { hollowCircle } from './flowchart.conf';
+import {UtilService} from '../services/util.service';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
@@ -10,17 +11,19 @@ export class FlowchartComponent implements OnInit {
   copy_node = {id: '', name: '', model_id: '', style: { left: '', top: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [[], [], [], []];
-  constructor( private zone: NgZone, public changeDetectorRef: ChangeDetectorRef) {
+  constructor( private zone: NgZone,
+               public util: UtilService,
+               public changeDetectorRef: ChangeDetectorRef) {
 
   }
 
   right_click(e, node) {   // 右键， 触发显示菜单
     e.preventDefault();
     e.stopPropagation();    // stop global event
-    if (!node) {  //   paste
+    if (!node) {  //   粘贴操作
       this.cur_node.style.left = e.clientX - 225 + 'px';
       this.cur_node.style.top = e.clientY  - 60 + 'px';
-    } else {     // copy delete
+    } else {     // 复制，删除操作。 复制操作需要记录当前被复制图形的大小
       this.cur_node = JSON.parse(JSON.stringify(node));
       const width = $('#' + node.id).width() + 'px';
       const height = $('#' + node.id).height() + 'px';
@@ -67,32 +70,7 @@ export class FlowchartComponent implements OnInit {
     this.copy_node.style = this.cur_node.style;
     this.nodes[this.copy_node.model_id].push(this.copy_node);
     this.changeDetectorRef.detectChanges();
-    const id = this.copy_node.id;
-    jsPlumb.addEndpoint(id, { anchor: 'Right'}, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Left' }, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Top' }, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, hollowCircle);
-    jsPlumb.draggable(id);
-
-    // 1.3 ?????draggable?resizable
-    $('#' + id).draggable({
-      containment: 'parent',
-      start: function () {
-        jsPlumb.repaintEverything();
-      },
-      drag:  (event, _ui) => {
-        jsPlumb.repaintEverything();
-      },
-      stop: function () {
-        jsPlumb.repaintEverything();
-      }
-    });
-
-    $('#' + id).resizable({
-      stop: function( event, ui) {
-        jsPlumb.repaintEverything();
-      }
-    });
+    this.setNodeAtribute(this.copy_node.id)
   }
 
   ngOnInit() {
@@ -116,7 +94,6 @@ export class FlowchartComponent implements OnInit {
   }
 
   CreateModel(ui, selector) {
-    // 1.1 添加html模型
     const modelid = $(ui.draggable).attr('id').split('_')[1];
     const left = ui.offset.left - $(selector).offset().left + 'px';
     const top = ui.offset.top - $(selector).offset().top + 'px';
@@ -127,39 +104,30 @@ export class FlowchartComponent implements OnInit {
       model_id: modelid,
       style: {'top': top , 'left': left}});
     this.zone.run(() => {});
-    // jsPlumb.setContainer($("#divCenter"));
-    // 1.2 添加连接点
-    jsPlumb.addEndpoint(id, { anchor: 'Right'}, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Left' }, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Top' }, hollowCircle);
-    jsPlumb.addEndpoint(id, { anchor: 'Bottom' }, hollowCircle);
-    jsPlumb.draggable(id);
+    this.setNodeAtribute(id);
+  }
 
-    // 1.3 注册实体可draggable和resizable
+  uuid() {
+    return this.util.uuid();
+  }
+
+  setNodeAtribute(id) {
+    // 设置属性之前node 必须已经存在
+    // 设置node的连线端点
+    jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
+    jsPlumb.draggable(id);
+    // 设置node可拖拽
     $('#' + id).draggable({
       containment: 'parent',
-      start: function () {
-        jsPlumb.repaintEverything();
-      },
-      drag:  (event, _ui) => {
-        jsPlumb.repaintEverything();
-      },
       stop: function () {
         jsPlumb.repaintEverything();
       }
     });
-
+    // 设置node可缩放
     $('#' + id).resizable({
       stop: function( event, e ) {
         jsPlumb.repaintEverything();
       }
-    });
-  }
-
-  uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
     });
   }
 }
