@@ -3,21 +3,20 @@
   <div class="node" id="node_1"></div>
 </div>
 
-<div id="right" (contextmenu)="right_click($event,null)">
-  <p>拖拉到此区域</p>
-<div  *ngFor="let node1 of nodes[0]"
-      class="node radius "
-      [ngStyle] =node1.style
-      (contextmenu)="right_click($event,node1)"
-      id="{{node1.id}}">
-  <input  [(ngModel)] = "node1.name">
-</div>
+<div id="right" (contextmenu)="right_click_on_blank($event,null)">
+  <div  *ngFor="let node1 of nodes[0]"
+        class="node radius "
+        [ngStyle] =node1.style
+        (contextmenu)="right_click_on_node($event,node1)"
+        id="{{node1.id}}">
+    <input  [(ngModel)] = "node1.name">
+  </div>
 
-<div  *ngFor="let node2 of nodes[1]"
-      (contextmenu)="right_click($event,node2)"
-      class="node" [ngStyle] =node2.style id="{{node2.id}}">
-  <input  [(ngModel)] = "node2.name">
-</div>
+  <div  *ngFor="let node2 of nodes[1]"
+        (contextmenu)="right_click_on_node($event,node2)"
+        class="node" [ngStyle] =node2.style id="{{node2.id}}">
+    <input  [(ngModel)] = "node2.name">
+  </div>
 </div>
 <app-context-menu *ngIf="showMenu"
                   (operate)="menu_click($event)"

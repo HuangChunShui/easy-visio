@@ -7,8 +7,9 @@ import {UtilService} from '../services/util.service';
 })
 export class FlowchartComponent implements OnInit {
   showMenu = false;
+  mouse_location: any = {};
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
-  copy_node = {id: '', name: '', model_id: '', style: { left: '', top: ''}};
+  copy_node = {id: '', name: '', model_id: '', style: { left: '', top: '', width: '', height: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [[], [], [], []];
   constructor( private zone: NgZone,
@@ -17,21 +18,28 @@ export class FlowchartComponent implements OnInit {
 
   }
 
-  right_click(e, node) {   // 右键， 触发显示菜单
+  right_click_on_blank(e) {
     e.preventDefault();
     e.stopPropagation();    // stop global event
-    if (!node) {  //   粘贴操作
-      this.cur_node.style.left = e.clientX - 225 + 'px';
-      this.cur_node.style.top = e.clientY  - 60 + 'px';
-    } else {     // 复制，删除操作。 复制操作需要记录当前被复制图形的大小
-      this.cur_node = JSON.parse(JSON.stringify(node));
-      const width = $('#' + node.id).width() + 'px';
-      const height = $('#' + node.id).height() + 'px';
-      this.cur_node.style.width = width;
-      this.cur_node.style.height = height;
-    }
-    this.right_menu_style = {left: e.clientX + 'px', top: e.clientY + 'px'};
+    this.mouse_location = {left: e.clientX, top: e.clientY}; // 相对于body位置
+    this.displayMenu(e.clientX, e.clientY);
+  }
+
+  displayMenu(x, y) {
+    this.right_menu_style = {left: x + 'px', top: y + 'px'};
     this.showMenu = true;
+  }
+
+  right_click_on_node(e, node) {
+    e.preventDefault();
+    e.stopPropagation();    // stop global event
+    this.mouse_location = {left: e.clientX, top: e.clientY}; // 相对于body位置
+    this.displayMenu(e.clientX, e.clientY);
+    this.cur_node = JSON.parse(JSON.stringify(node));
+    const width = $('#' + node.id).width() + 'px';
+    const height = $('#' + node.id).height() + 'px';
+    this.cur_node.width = width;
+    this.cur_node.height = height;
   }
 
   menu_click(op_obj) {  // 菜单点击
@@ -59,34 +67,34 @@ export class FlowchartComponent implements OnInit {
       id : this.uuid(),
       name : '',
       model_id: this.cur_node.model_id,
-      style: this.cur_node.style
+      style: {left: '', top: '', width: '', height: ''}
     };
   }
 
   pasteNode(e) {
     this.showMenu = false;
-    // this.right_menu_style.left = parseInt(this.right_menu_style.left.split('px')[0], 10) - 225 + 'px';
-    // this.right_menu_style.top = parseInt(this.right_menu_style.top.split('px')[0], 10) - 60 + 'px';
-    this.copy_node.style = this.cur_node.style;
-    this.nodes[this.copy_node.model_id].push(this.copy_node);
+    this.copy_node.id = this.uuid();
+    this.copy_node.style.top = this.mouse_location.top - 60 + 'px';
+    this.copy_node.style.left = this.mouse_location.left - 225 + 'px';
+    this.copy_node.style.width = this.cur_node.width;
+    this.copy_node.style.height = this.cur_node.height;
+    this.nodes[this.copy_node.model_id].push(JSON.parse(JSON.stringify(this.copy_node)));
     this.changeDetectorRef.detectChanges();
-    this.setNodeAtribute(this.copy_node.id)
+    this.setNodeAtribute(this.copy_node.id);
   }
 
   ngOnInit() {
     window.onclick = (e) => {
-      // this.right_menu_style = {};
-      // this.cur_node = {id: '', model_id: '', style: {top: '', left: ''}};
       this.showMenu = false;
     };
     $('#left .node').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
       helper: 'clone',
-      scope: 'ss',
+      scope: 'r',
     });
     $('#right').droppable({
-      scope: 'ss',
+      scope: 'r',
       drop:  (event, ui: any) => {
         this.CreateModel(ui, $('#right'));
       }
