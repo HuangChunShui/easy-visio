@@ -24,11 +24,15 @@
             ],
             "styles": [
               "src/styles.less",
-              "./node_modules/jquery-ui-1.12.1/jquery-ui.css"
+              "./node_modules/jquery-ui-1.12.1/jquery-ui.css",
+              "./node_modules/primeicons/primeicons.css",
+              "./node_modules/primeng/resources/themes/nova-light/theme.css",
+              "./node_modules/primeng/resources/primeng.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",    // 第三方库，注意路径及依赖关系
               "./node_modules/jquery-ui-1.12.1/jquery-ui.js",
+              "./node_modules/primeng/primeng.js",
               "./node_modules/jsplumb/dist/js/jsplumb.min.js"]
           },
           "configurations": {

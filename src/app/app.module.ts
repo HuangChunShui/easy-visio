@@ -10,6 +10,8 @@ import {FlowchartComponent} from './flowchart/flowchart.component';
 import {FlowchartNavComponent} from './flowchart/nav/nav.component';
 import {FormsModule} from '@angular/forms';
 import {ContextMenuComponent} from './flowchart/context-menu.component';
+import {DropdownModule} from 'primeng/dropdown';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import {ContextMenuComponent} from './flowchart/context-menu.component';
   ],
   imports: [
     BrowserModule,
+    DropdownModule,
+    BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
