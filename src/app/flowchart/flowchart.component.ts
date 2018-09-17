@@ -74,8 +74,10 @@ export class FlowchartComponent implements OnInit {
   pasteNode(e) {
     this.showMenu = false;
     this.copy_node.id = this.uuid();
-    this.copy_node.style.top = this.mouse_location.top - 60 + 'px';
-    this.copy_node.style.left = this.mouse_location.left - 225 + 'px';
+    const offset_left = $('#right').offset().left;
+    const offset_top = $('#right').offset().top;
+    this.copy_node.style.top = this.mouse_location.top - offset_top + 'px';
+    this.copy_node.style.left = this.mouse_location.left - offset_left + 'px';
     this.copy_node.style.width = this.cur_node.width;
     this.copy_node.style.height = this.cur_node.height;
     this.nodes[this.copy_node.model_id].push(JSON.parse(JSON.stringify(this.copy_node)));
