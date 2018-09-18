@@ -12,10 +12,26 @@ export class FlowchartComponent implements OnInit {
   copy_node = {id: '', name: '', model_id: '', style: { left: '', top: '', width: '', height: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [];
+  fontlist = [{lable: 'Helvetica Neue', code : 'Helvetica Neue'},
+    {lable: 'Arial', code: 'Arial'},
+    {lable: 'PingFang SC', code: 'PingFang SC'},
+    {lable: 'Hiragino Sans GB', code: 'Hiragino Sans GB'},
+    {lable: 'Microsoft YaHei', code: 'Microsoft YaHei'}];
+  selectedFont = 'Microsoft YaHei';
+  size = 0;
+  selectedNode: any = {};
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
 
+  }
+
+  selectFont(font) {
+    this.selectedNode.font = {'font-family': font.code, 'font-size': '24px'};
+  }
+
+  clickInput(node) {
+    this.selectedNode = node;
   }
 
   right_click_on_blank(e) {

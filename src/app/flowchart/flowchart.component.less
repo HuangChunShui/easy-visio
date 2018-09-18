@@ -30,9 +30,9 @@
     height: 15px;
   }
   .rect1 {
-       height: 15px;
-       border-radius: 0.5em;
-     }
+    height: 15px;
+    border-radius: 0.5em;
+  }
   .rect {
     height: 15px;
   }
@@ -50,12 +50,12 @@
 }
 
 .node {
-/*  box-shadow: 2px 2px 19px #aaa;
-  -o-box-shadow: 2px 2px 19px #aaa;
-  -webkit-box-shadow: 2px 2px 19px #aaa;
-  -moz-box-shadow: 2px 2px 19px #aaa;
-  -moz-border-radius: 0.5em;
-  opacity: 0.8;*/
+  /*  box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius: 0.5em;
+    opacity: 0.8;*/
   border: 2px solid #000000;
   width: 150px;
   height: 50px;
@@ -82,7 +82,7 @@
   border: 1px solid red;
   width: 1300px;
   position: absolute;
-  top: 50px;
+  top: 100px;
   height: 680px;
   left: 215px;
   .node {
@@ -96,7 +96,7 @@
       outline:none;
       cursor: pointer;
       BACKGROUND-COLOR: transparent;
-      }
+    }
   }
   .radius {border-radius: 25em;}
   .rect {}
@@ -112,4 +112,30 @@
     height: 100px;
     width: 100px;
   }
+}
+
+
+#setting {
+  position: absolute;
+  top: 50px;
+  left: 215px;
+  width: 1300px;
+  height: 50px;
+  background: snow;
+}
+
+#bold_font_setting {
+    padding-left: 0;
+    padding-right: 0;
+    width: 30px;
+    height: 25px;
+    padding-top: 0;
+    padding-bottom: 0;
+  :host /deep/ span {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  }
+#font_size_setting{
+  width: 48px
 }

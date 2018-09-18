@@ -12,6 +12,8 @@ import {FormsModule} from '@angular/forms';
 import {ContextMenuComponent} from './flowchart/context-menu.component';
 import {DropdownModule} from 'primeng/dropdown';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    DropdownModule,
+    DropdownModule, InputTextModule, ButtonModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
