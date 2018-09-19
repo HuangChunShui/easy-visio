@@ -18,3 +18,11 @@ export let hollowCircle = {
   maxConnections: -1,  // 设置连接点最多可以连接几条线
   connectorOverlays: [['Arrow', { width: 8, length: 8, location: 1 }]]
 };
+
+
+export let FONT_LIST = [{lable: '宋体', code : 'SimSun'},
+  {lable: '楷体', code: 'KaiTi'},
+  {lable: '仿宋', code: 'FangSong'},
+  {lable: '新宋体', code: 'NSimSun'},
+  {lable: 'Times New Roman', code: 'Times New Roman'},
+  {lable: '微软雅黑', code: 'Microsoft YaHei'}];

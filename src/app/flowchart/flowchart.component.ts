@@ -1,22 +1,19 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import { hollowCircle } from './flowchart.conf';
+import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import { hollowCircle, FONT_LIST } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
 })
-export class FlowchartComponent implements OnInit {
+export class FlowchartComponent implements OnInit, AfterViewInit {
+  model = [{id: 0, name: 'radius'}, {id: 1, name: 'rect'}, {id: 2, name: 'rect1'}, {id: 3, name: 'circle'}, {id: 4, name: 'square'}];
   showMenu = false;
   mouse_location: any = {};
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
   copy_node = {id: '', name: '', model_id: '', style: { left: '', top: '', width: '', height: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [];
-  fontlist = [{lable: 'Helvetica Neue', code : 'Helvetica Neue'},
-    {lable: 'Arial', code: 'Arial'},
-    {lable: 'PingFang SC', code: 'PingFang SC'},
-    {lable: 'Hiragino Sans GB', code: 'Hiragino Sans GB'},
-    {lable: 'Microsoft YaHei', code: 'Microsoft YaHei'}];
+  fontlist = FONT_LIST;
   selectedFont = 'Microsoft YaHei';
   size = 0;
   selectedNode: any = {};
@@ -132,11 +129,7 @@ export class FlowchartComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.setNodeAtribute(this.copy_node.id);
   }
-
-  ngOnInit() {
-    window.onclick = (e) => {
-      this.showMenu = false;
-    };
+  ngAfterViewInit() {
     $('#left .model').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
@@ -150,13 +143,20 @@ export class FlowchartComponent implements OnInit {
       }
     });
   }
+  ngOnInit() {
+    window.onclick = (e) => {
+      this.showMenu = false;
+    };
+  }
 
   CreateModel(ui, selector) {
     const modelid = $(ui.draggable).attr('id').split('_')[1];
     const left = ui.offset.left - $(selector).offset().left + 'px';
     const top = ui.offset.top - $(selector).offset().top + 'px';
     const id  = this.uuid();
-    this.nodes[parseInt(modelid, 10)] = [];
+    if (!this.nodes[parseInt(modelid, 10)]) {    // 只初始化一次，否则重复放同一个元素会有异常
+      this.nodes[parseInt(modelid, 10)] = [];
+    }
     this.nodes[parseInt(modelid, 10)].push({
       id : id,
       name: '',
@@ -170,19 +170,22 @@ export class FlowchartComponent implements OnInit {
     return this.util.uuid();
   }
 
+/***设置node属性，设置属性之前node 必须已经存在
+ * 1. 为node增加自动连线的端点（endpoint）; *
+ * 2. 设置node为可拖拽
+ * 3. 设置node为可缩放
+ * ****/
   setNodeAtribute(id) {
-    // 设置属性之前node 必须已经存在
-    // 设置node的连线端点
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id);
-    // 设置node可拖拽
     $('#' + id).draggable({
       containment: 'parent',
+      revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
+      scope: 'r', // 只允许右边区域拖拽放置
       stop: function () {
         jsPlumb.repaintEverything();
       }
     });
-    // 设置node可缩放
     $('#' + id).resizable({
       stop: function( event, e ) {
         jsPlumb.repaintEverything();
