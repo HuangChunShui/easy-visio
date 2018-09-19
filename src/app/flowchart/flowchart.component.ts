@@ -20,6 +20,8 @@ export class FlowchartComponent implements OnInit {
   selectedFont = 'Microsoft YaHei';
   size = 0;
   selectedNode: any = {};
+  color = '';
+  b_color = '';
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -27,7 +29,35 @@ export class FlowchartComponent implements OnInit {
   }
 
   selectFont(font) {
-    this.selectedNode.font = {'font-family': font.code, 'font-size': '24px'};
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['font-family'] = font.code;
+  }
+
+  setFontSize(size) {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['font-size'] = size + 'px';
+
+  }
+
+  setBold() {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['font-weight'] = 'bold';
+  }
+
+  setFontColor(o) {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font.color = o.value;
+  }
+  setBackGroudColor(o) {
+    this.selectedNode.style['background-color'] = o.value;
   }
 
   clickInput(node) {
@@ -79,12 +109,14 @@ export class FlowchartComponent implements OnInit {
   }
 
   copyNode() {
-    this.copy_node = {
+    this.copy_node = JSON.parse(JSON.stringify(this.cur_node));
+    this.copy_node.id = this.uuid();
+/*    this.copy_node = {
       id : this.uuid(),
       name : '',
       model_id: this.cur_node.model_id,
       style: {left: '', top: '', width: '', height: ''}
-    };
+    };*/
   }
 
   pasteNode(e) {
