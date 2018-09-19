@@ -3,17 +3,19 @@
 </div>
 
 <div id="setting">
-  <p-dropdown [options]="fontlist"
-    placeholder="选择字体" optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="selectedFont">
-
+  <p-dropdown [options]="fontlist"  [style]="{'width':'100px'}"
+     optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="selectedFont">
   </p-dropdown>
-  <input id="font_size_setting" type="number" pInputText (ngModelChange)="setFontSize($event)" [(ngModel)]="size"/>
+  <p-spinner size="5" [inputStyle]="{'height':'30px'}" [(ngModel)]="size" onChange="setFontSize($event)"></p-spinner>
+  <!--<input id="font_size_setting" type="number" pInputText (ngModelChange)="setFontSize($event)" [(ngModel)]="size"/>-->
   <span class="ui-inputgroup-addon">px</span>
-  <button  id="bold_font_setting" pButton type="button" (click)="setBold()" label="B" class="ui-button-raised"></button>
+  <i class="fa fa-fw fa-bold" (click)="setBold()"></i>
+  <i class="fa fa-fw fa-italic" (click)="setFontStyle()"></i>
+  <i class="fa fa-fw fa-underline" (click)="setUnderline()"></i>
+
   <p-colorPicker [(ngModel)]="color" (onChange)="setFontColor($event)"></p-colorPicker>
   <p-colorPicker [(ngModel)]="b_color" (onChange)="setBackGroudColor($event)"></p-colorPicker>
 </div>
-
 <div id="right" (contextmenu)="right_click_on_blank($event,null)">
   <div  *ngFor="let m of model">
     <div  *ngFor="let node1 of nodes[m.id]" class="node {{m.name}} " [ngStyle] =node1.style

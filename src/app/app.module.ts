@@ -15,13 +15,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
 import {ColorPickerModule} from 'primeng/colorpicker';
+import {SpinnerModule} from 'primeng/spinner';
+import {SelectButtonModule} from 'primeng/selectbutton';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent
   ],
   imports: [
     BrowserModule,
-    DropdownModule, InputTextModule, ButtonModule, ColorPickerModule,
+    DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)

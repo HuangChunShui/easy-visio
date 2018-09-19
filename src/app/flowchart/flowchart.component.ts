@@ -47,6 +47,20 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     this.selectedNode.font['font-weight'] = 'bold';
   }
 
+  setFontStyle() {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['font-style'] = 'italic';
+  }
+
+  setUnderline() {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['text-decoration'] = 'underline';
+  }
+
   setFontColor(o) {
     if (!this.selectedNode.font) {
       this.selectedNode.font = {};
