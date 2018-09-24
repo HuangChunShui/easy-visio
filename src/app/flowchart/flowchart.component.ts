@@ -14,11 +14,14 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   right_menu_style = {left: '', top: ''};
   nodes = [];
   fontlist = FONT_LIST;
-  selectedFont = 'Microsoft YaHei';
-  size = 0;
+  FONT_FAMILY: any = {lable: '宋体', code : 'SimSun'};
+  FONT_SIZE = 20;  // 默认字体大小
+  FONT_STYLE = 'normal';
+  FONT_WEIGHT = 'normal';
+  TEXT_DECORATION = 'none';
+  FONT_COLOR = '#000';
+  BACKGOUND_COLOR = '#fff';
   selectedNode: any = {};
-  color = '';
-  b_color = '';
   showSetFontColor = false;
   showSetBackGroudColor = false;
   constructor( private zone: NgZone,
@@ -173,7 +176,15 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       id : id,
       name: '',
       model_id: modelid,
-      style: {'top': top , 'left': left}});
+      font: {
+        'font-size': this.FONT_SIZE + 'px',
+        'font-family': this.FONT_FAMILY.code,
+        'color': this.FONT_COLOR,
+        'text-decoration': this.TEXT_DECORATION,
+        'font-weight': this.FONT_WEIGHT,
+        'font-style': this.FONT_STYLE
+      },
+      style: {'top': top , 'left': left, 'background': this.BACKGOUND_COLOR}});
     this.zone.run(() => {});
     this.setNodeAtribute(id);
   }

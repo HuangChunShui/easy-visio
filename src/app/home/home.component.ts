@@ -7,7 +7,12 @@ import {Component, OnInit} from '@angular/core';
 export class HomeComponent implements OnInit {
   cities1: any;
   selectedCity1: any;
+  test = 10;
+  selectFont(v) {
+    console.log(v);
+  }
   ngOnInit() {
+    $( '#spinner' ).spinner();
     this.cities1 = [
       {label: 'Select City', value: null},
       {label: 'New York', value: {id: 1, name: 'New York', code: 'NY'}},

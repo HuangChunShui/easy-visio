@@ -1,2 +1,11 @@
 <h1>building</h1>
 <p-dropdown [options]="cities1" [(ngModel)]="selectedCity1"></p-dropdown>
+
+<!--<div class="input-group">
+  <input id="input-number-mod"  name = "input-number" [(ngModel)]="test"
+         class="form-control mod" type="number" (ngModelChange)="selectFont($event)" />
+  <div class="input-group-repend">
+    <span class="input-group-text">px</span>
+  </div>
+</div>-->
+<app-number-input [(ngModel)]="test" (valueChange)="selectFont($event)"></app-number-input>

@@ -3,22 +3,20 @@
 </div>
 
 <div id="setting">
-  <p-dropdown [options]="fontlist"  [style]="{'width':'100px'}"
-     optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="selectedFont">
+  <p-dropdown [options]="fontlist"  [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
+     optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="FONT_FAMILY">
   </p-dropdown>
-  <p-spinner  [(ngModel)]="size" onChange="setFontSize($event)"></p-spinner>
-  <!--<input id="font_size_setting" type="number" pInputText (ngModelChange)="setFontSize($event)" [(ngModel)]="size"/>-->
-  <span class="ui-inputgroup-addon">px</span>
-  <i class="fa fa-fw fa-bold" (click)="setBold()"></i>
+  <app-number-input [(ngModel)]="FONT_SIZE" (valueChange)="setFontSize($event)"></app-number-input>
+  <i class="fa fa-fw fa-bold" style="margin-left: 5px;" (click)="setBold()"></i>
   <i class="fa fa-fw fa-italic" (click)="setFontStyle()"></i>
   <i class="fa fa-fw fa-underline" (click)="setUnderline()"></i>
-  <i class="fa fa-fw fa-font" (click)="showSetFontColor = true"></i>
-  <i class="fa fa-fw fa-paint-brush" (click)="showSetBackGroudColor = true"></i>
+  <i class="fa fa-fw fa-font" (click)="showSetFontColor = true" [ngStyle]="{color: FONT_COLOR}"></i>
+  <i class="fa fa-fw fa-paint-brush" (click)="showSetBackGroudColor = true" [ngStyle]="{color: BACKGOUND_COLOR}"></i>
   <div *ngIf = "showSetFontColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
-    <p-colorPicker [(ngModel)]="color" [inline]="true" (onChange)="setFontColor($event)"></p-colorPicker>
+    <p-colorPicker  [inline]="true" [(ngModel)]="FONT_COLOR" (onChange)="setFontColor($event)"></p-colorPicker>
   </div>
   <div *ngIf = "showSetBackGroudColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
-    <p-colorPicker [(ngModel)]="b_color" [inline]="true" (onChange)="setBackGroudColor($event)"></p-colorPicker>
+    <p-colorPicker [(ngModel)]="BACKGOUND_COLOR" [inline]="true" (onChange)="setBackGroudColor($event)"></p-colorPicker>
   </div>
 </div>
 

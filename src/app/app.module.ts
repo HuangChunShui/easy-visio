@@ -17,9 +17,11 @@ import {ButtonModule} from 'primeng/button';
 import {ColorPickerModule} from 'primeng/colorpicker';
 import {SpinnerModule} from 'primeng/spinner';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import {NumberInputComponent} from './flowchart/number-input.component';
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent
+    AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
+    NumberInputComponent
   ],
   imports: [
     BrowserModule,
