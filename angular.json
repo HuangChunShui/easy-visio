@@ -27,11 +27,13 @@
               "./node_modules/primeng/resources/primeng.css",
               "./node_modules/font-awesome/css/font-awesome.css",
               "./node_modules/jquery-ui/jquery-ui.css",
-              "src/styles.less"
+              "src/styles.less",
+//              "node_modules/bootstrap/dist/css/bootstrap.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",    // 第三方库，注意路径及依赖关系
               "./node_modules/jquery-ui/jquery-ui.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
               "./node_modules/jsplumb/dist/js/jsplumb.min.js"
           ]
           },

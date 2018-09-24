@@ -6,7 +6,7 @@ import {UtilService} from '../services/util.service';
   styleUrls: ['flowchart.component.less']
 })
 export class FlowchartComponent implements OnInit, AfterViewInit {
-  model = [{id: 0, name: 'radius'}, {id: 1, name: 'rect'}, {id: 2, name: 'rect1'}, {id: 3, name: 'circle'}, {id: 4, name: 'square'}];
+  models = [{id: 0, name: 'radius'}, {id: 1, name: 'rect'}, {id: 2, name: 'rect1'}, {id: 3, name: 'circle'}, {id: 4, name: 'square'}];
   showMenu = false;
   mouse_location: any = {};
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
@@ -19,6 +19,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   selectedNode: any = {};
   color = '';
   b_color = '';
+  showSetFontColor = false;
+  showSetBackGroudColor = false;
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -62,12 +64,14 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   }
 
   setFontColor(o) {
+    this.showSetFontColor = false;
     if (!this.selectedNode.font) {
       this.selectedNode.font = {};
     }
     this.selectedNode.font.color = o.value;
   }
   setBackGroudColor(o) {
+    this.showSetBackGroudColor = false;
     this.selectedNode.style['background-color'] = o.value;
   }
 
@@ -122,12 +126,6 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   copyNode() {
     this.copy_node = JSON.parse(JSON.stringify(this.cur_node));
     this.copy_node.id = this.uuid();
-/*    this.copy_node = {
-      id : this.uuid(),
-      name : '',
-      model_id: this.cur_node.model_id,
-      style: {left: '', top: '', width: '', height: ''}
-    };*/
   }
 
   pasteNode(e) {
@@ -150,14 +148,14 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       helper: 'clone',
       scope: 'r',
     });
+  }
+  ngOnInit() {
     $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
         this.CreateModel(ui, $('#right'));
       }
     });
-  }
-  ngOnInit() {
     window.onclick = (e) => {
       this.showMenu = false;
     };
@@ -193,10 +191,14 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id);
     $('#' + id).draggable({
-      containment: 'parent',
-      revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
-      scope: 'r', // 只允许右边区域拖拽放置
+      containment: $('#right'),
       stop: function () {
+        jsPlumb.repaintEverything();
+      },
+      start: function () {
+        jsPlumb.repaintEverything();
+      },
+      drag:  (event, _ui) => {
         jsPlumb.repaintEverything();
       }
     });

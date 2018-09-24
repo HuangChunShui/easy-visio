@@ -1,27 +1,33 @@
 <div id="left">
-    <div *ngFor="let m of model" class="model {{m.name}}" id="node_{{m.id}}"></div>
+    <div *ngFor="let m of models" class="model {{m.name}}" id="node_{{m.id}}"></div>
 </div>
 
 <div id="setting">
   <p-dropdown [options]="fontlist"  [style]="{'width':'100px'}"
      optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="selectedFont">
   </p-dropdown>
-  <p-spinner size="5" [inputStyle]="{'height':'30px'}" [(ngModel)]="size" onChange="setFontSize($event)"></p-spinner>
+  <p-spinner  [(ngModel)]="size" onChange="setFontSize($event)"></p-spinner>
   <!--<input id="font_size_setting" type="number" pInputText (ngModelChange)="setFontSize($event)" [(ngModel)]="size"/>-->
   <span class="ui-inputgroup-addon">px</span>
   <i class="fa fa-fw fa-bold" (click)="setBold()"></i>
   <i class="fa fa-fw fa-italic" (click)="setFontStyle()"></i>
   <i class="fa fa-fw fa-underline" (click)="setUnderline()"></i>
-
-  <p-colorPicker [(ngModel)]="color" (onChange)="setFontColor($event)"></p-colorPicker>
-  <p-colorPicker [(ngModel)]="b_color" (onChange)="setBackGroudColor($event)"></p-colorPicker>
+  <i class="fa fa-fw fa-font" (click)="showSetFontColor = true"></i>
+  <i class="fa fa-fw fa-paint-brush" (click)="showSetBackGroudColor = true"></i>
+  <div *ngIf = "showSetFontColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
+    <p-colorPicker [(ngModel)]="color" [inline]="true" (onChange)="setFontColor($event)"></p-colorPicker>
+  </div>
+  <div *ngIf = "showSetBackGroudColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
+    <p-colorPicker [(ngModel)]="b_color" [inline]="true" (onChange)="setBackGroudColor($event)"></p-colorPicker>
+  </div>
 </div>
+
 <div id="right" (contextmenu)="right_click_on_blank($event,null)">
-  <div  *ngFor="let m of model">
-    <div  *ngFor="let node1 of nodes[m.id]" class="node {{m.name}} " [ngStyle] =node1.style
-          (contextmenu)="right_click_on_node($event,node1)" id="{{node1.id}}">
-      <textarea  [(ngModel)] = "node1.name" [ngStyle] = node1.font (focus)="clickInput(node1)"></textarea>
-    </div>
+  <div  *ngFor="let m of models">
+      <div *ngFor="let node1 of nodes[m.id]" class="node {{m.name}} " [ngStyle] =node1.style
+            (contextmenu)="right_click_on_node($event,node1)" id="{{node1.id}}">
+        <textarea  [(ngModel)] = "node1.name" [ngStyle] = node1.font (focus)="clickInput(node1)"></textarea>
+      </div>
   </div>
 </div>
 
