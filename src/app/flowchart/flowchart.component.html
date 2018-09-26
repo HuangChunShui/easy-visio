@@ -1,5 +1,9 @@
 <div id="left">
-    <div *ngFor="let m of models" class="model {{m.name}}" id="node_{{m.id}}"></div>
+    <!--<div *ngFor="let m of models" class="model {{m.name}}" id="node_{{m.id}}"></div>-->
+  <div *ngFor="let m of models" class="model_container">
+    <div class="model {{m.name}}" id="node_{{m.id}}"></div>
+  </div>
+
 </div>
 
 <div id="setting">

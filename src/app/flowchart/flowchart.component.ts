@@ -6,7 +6,12 @@ import {UtilService} from '../services/util.service';
   styleUrls: ['flowchart.component.less']
 })
 export class FlowchartComponent implements OnInit, AfterViewInit {
-  models = [{id: 0, name: 'radius'}, {id: 1, name: 'rect'}, {id: 2, name: 'rect1'}, {id: 3, name: 'circle'}, {id: 4, name: 'square'}];
+  models = [{id: 0, name: 'radius'},
+    {id: 1, name: 'rect'},
+    {id: 2, name: 'rect1'},
+    {id: 3, name: 'circle'},
+    {id: 4, name: 'square'},
+    {id: 5, name: 'parallelogra'}];
   showMenu = false;
   mouse_location: any = {};
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};

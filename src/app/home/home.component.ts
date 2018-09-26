@@ -12,6 +12,11 @@ export class HomeComponent implements OnInit {
     console.log(v);
   }
   ngOnInit() {
+    if ($.support.boxModel) { // 是W3C盒子模型
+     console.log('W3C盒子模型') ;
+    } else { // 是IE盒子模型
+     console.log('W3C盒IE子模型') ;
+    }
     $( '#spinner' ).spinner();
     this.cities1 = [
       {label: 'Select City', value: null},
