@@ -36,12 +36,19 @@ input:-webkit-autofill {
   border-radius: 0 0.25em 0.25em 0;
 }
 .test {
-  //position: relative;
-  height: 0px;
-  width: 0px;
-  border-top: 90px solid red;
-  border-right: 100px solid black;
-  border-bottom: 100px solid blue;
+  position: relative;
+  //transform:rotate(-45deg);
+  height: 200px;
+  width: 200px;
+  background: #40a8f2;
+  textarea {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    width: 100px;height: 100px;
+    //background: #8e8e8e;
+    margin: auto;
+    //transform:rotate(45deg);
+  }
 
 }
 /*.test2{
