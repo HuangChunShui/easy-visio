@@ -206,7 +206,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   setNodeAtribute(id) {
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id);
-    $('#' + id).draggable({
+    $('.' + id).draggable({
       containment: $('#right'),
       stop: function () {
         jsPlumb.repaintEverything();
