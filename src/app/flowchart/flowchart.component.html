@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<div id="right" (contextmenu)="right_click_on_blank($event,null)">
+<div id="right" class = "grid" (contextmenu)="right_click_on_blank($event,null)">
   <div  *ngFor="let m of models">
       <div *ngFor="let node1 of nodes[m.id]" class="container_sharpe container_{{m.name}}" [ngStyle] =node1.style
             (contextmenu)="right_click_on_node($event,node1)" id="{{node1.id}}">
