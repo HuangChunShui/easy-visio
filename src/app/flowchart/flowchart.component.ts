@@ -150,7 +150,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     this.setNodeAtribute(this.copy_node.id);
   }
   ngAfterViewInit() {
-    $('#left .model').draggable({
+    $('#left .model_container').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
       helper: 'clone',
@@ -206,19 +206,21 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   setNodeAtribute(id) {
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id);
-    $('.' + id).draggable({
+/*    $('#' + id).draggable({
       containment: $('#right'),
       stop: function () {
-        jsPlumb.repaintEverything();
+        // jsPlumb.repaintEverything();
       },
       start: function () {
-        jsPlumb.repaintEverything();
+        // jsPlumb.repaintEverything();
       },
       drag:  (event, _ui) => {
-        jsPlumb.repaintEverything();
+        // jsPlumb.repaintEverything();
       }
-    });
+    });*/
     $('#' + id).resizable({
+      aspectRatio: true, // 保持纵横比
+      autoHide : true, // 隐藏缩放手柄
       stop: function( event, e ) {
         jsPlumb.repaintEverything();
       }
