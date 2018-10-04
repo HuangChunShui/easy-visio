@@ -73,13 +73,16 @@
     -webkit-box-shadow: 2px 2px 19px #aaa;
     -moz-box-shadow: 2px 2px 19px #aaa;
     -moz-border-radius: 0.5em;
-    opacity: 0.8;*/
+    */
   //border: 2px solid red;
+  //opacity: 0.4;
+  //background-color:red;
   width: 200px;
   height: 200px;
   //line-height: 100px;
+  //z-index: 1;
   position: absolute;
-  background-color:transparent;
+  //background-color:transparent;
   //color: black;
   //padding: 10px;
   font-size: 15pt;
@@ -104,6 +107,8 @@
   height: 680px;
   left: 215px;
   .shape {
+    //opacity: 1;
+    //z-index: 100;
     border: 2px solid #000000;
     position: absolute;
     margin: auto;
@@ -119,6 +124,15 @@
   .container_radius{
     height: 100px;
   }
+
+  .container_square{
+    width: 140px;
+    height: 140px;
+  }
+  .container_circle{
+    width: 140px;
+    height: 140px;
+  }
   .container_sharpe {
     //overflow: hidden;
 
@@ -132,9 +146,9 @@
       position: absolute;
       margin: auto;
       top: 0; left: 0; bottom: 0; right: 0;
-      //cursor: pointer;
-      //BACKGROUND-COLOR: transparent;
-      BACKGROUND-COLOR: #e7f4fd;
+      cursor: pointer;
+      BACKGROUND-COLOR: transparent;
+      //BACKGROUND-COLOR: #e7f4fd;
     }
   }
   .radius {border-radius: 25em;}
@@ -204,12 +218,6 @@
 .ui-state-default {
   background: #fff;
 }
-/*.grid {
-  background:
-    -webkit-linear-gradient(top, transparent 9px,#C0C0C0 10px,),
-    -webkit-linear-gradient(left, transparent 9px, #C0C0C0 10px);
-  background-size: 10px 10px;
-}*/
 
 .grid {
   background: -webkit-linear-gradient(top,

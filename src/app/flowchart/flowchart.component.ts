@@ -189,7 +189,9 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
         'font-weight': this.FONT_WEIGHT,
         'font-style': this.FONT_STYLE
       },
-      style: {'top': top , 'left': left, 'background': this.BACKGOUND_COLOR}});
+      location: {'top': top , 'left': left},
+      // style: {'top': top , 'left': left, 'background': this.BACKGOUND_COLOR}});
+    style: {'background': this.BACKGOUND_COLOR}});
     this.zone.run(() => {});
     this.setNodeAtribute(id);
   }
@@ -206,20 +208,23 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   setNodeAtribute(id) {
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id, {
+      // handle: 'div',
       grid: [10, 10]
     });
-/*    $('#' + id).draggable({
+    $('#' + id).draggable({
+      cancel: '.title',
+
       containment: $('#right'),
       stop: function () {
-        // jsPlumb.repaintEverything();
+        jsPlumb.repaintEverything();
       },
       start: function () {
-        // jsPlumb.repaintEverything();
+        jsPlumb.repaintEverything();
       },
       drag:  (event, _ui) => {
-        // jsPlumb.repaintEverything();
+        jsPlumb.repaintEverything();
       }
-    });*/
+    });
     $('#' + id).resizable({
       aspectRatio: true, // 保持纵横比
       autoHide : true, // 隐藏缩放手柄
