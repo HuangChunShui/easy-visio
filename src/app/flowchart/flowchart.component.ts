@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import { hollowCircle, FONT_LIST } from './flowchart.conf';
+import { hollowCircle, FONT_LIST, LINE_STYLE_OPTION } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
 @Component({
   templateUrl: 'flowchart.component.html',
@@ -19,6 +19,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   right_menu_style = {left: '', top: ''};
   nodes = [];
   fontlist = FONT_LIST;
+  LINE_STYLE = {lable: '直线', code : 'Straight'};
+  line_style_option = LINE_STYLE_OPTION;
   FONT_FAMILY: any = {lable: '宋体', code : 'SimSun'};
   FONT_SIZE = 20;  // 默认字体大小
   FONT_STYLE = 'normal';
@@ -167,6 +169,12 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     window.onclick = (e) => {
       this.showMenu = false;
     };
+/*    jsPlumb.bind('connection', function (connInfo, originalEvent) {
+    });*/
+  }
+
+  selectLineStyle(l: any) {
+    hollowCircle.connector[0] = l.code;
   }
 
   CreateModel(ui, selector) {
@@ -208,12 +216,11 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   setNodeAtribute(id) {
     jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
     jsPlumb.draggable(id, {
-      // handle: 'div',
       grid: [10, 10]
     });
     $('#' + id).draggable({
       cancel: '.title',
-
+      grid: [10, 10],
       containment: $('#right'),
       stop: function () {
         jsPlumb.repaintEverything();

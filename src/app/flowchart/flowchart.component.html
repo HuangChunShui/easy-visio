@@ -21,6 +21,10 @@
   <div *ngIf = "showSetBackGroudColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
     <p-colorPicker [(ngModel)]="BACKGOUND_COLOR" [inline]="true" (onChange)="setBackGroudColor($event)"></p-colorPicker>
   </div>
+  <p-dropdown [options]="line_style_option"
+              [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
+              optionLabel="lable" (ngModelChange) = "selectLineStyle($event)" [(ngModel)]="LINE_STYLE">
+  </p-dropdown>
 </div>
 
 <div id="right" class = "grid" (contextmenu)="right_click_on_blank($event,null)">
