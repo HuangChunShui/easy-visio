@@ -10,18 +10,6 @@
   <li [ngClass]="{'active': isFlowchartActive}">
     <a routerLink="flowchart">流程图</a>
   </li>
-  <li [ngClass]="{'active': isPatternRouterActive}">
-    <a routerLink="pattern/form">item3</a>
-  </li>
-  <li routerLinkActive="active">
-    <a routerLink="iconfont">item4</a>
-  </li>
-  <li routerLinkActive="active">
-    <a routerLink="/download">item5</a>
-  </li>
-  <li routerLinkActive="active">
-    <a routerLink="/help/get-started">item6</a>
-  </li>
 </header>
 <app-home-nav *ngIf="isHomeActive"></app-home-nav>
 <!--<app-flowchart-nav *ngIf="isFlowchartActive"></app-flowchart-nav>-->
