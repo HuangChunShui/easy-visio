@@ -218,8 +218,12 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     jsPlumb.draggable(id, {
       grid: [10, 10]
     });
+    /****
+     * 当光标在 draggable 上指定部分时才允许拖拽。使用 handle 选项来指定用于拖拽对象的元素（或元素组）的 jQuery 选择器
+     * 当光标在 draggable 内指定元素（或元素组）上时不允许拖拽。使用 cancel选项来指定取消拖拽功能的 jQuery 选择器
+     * **/
     $('#' + id).draggable({
-      cancel: '.title',
+      // cancel: '.title',
       grid: [10, 10],
       containment: $('#right'),
       stop: function () {
