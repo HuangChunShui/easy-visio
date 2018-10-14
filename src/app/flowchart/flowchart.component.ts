@@ -15,7 +15,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   showMenu = false;
   mouse_location: any = {};
   cur_node: any = {id: '', model_id: '', style: { left: '', top: ''}};
-  copy_node = {id: '', name: '', model_id: '', style: { left: '', top: '', width: '', height: ''}};
+  copy_node = {id: '', name: '', model_id: '', location: { left: '', top: '', width: '', height: ''},  style: { width: '', height: ''}};
   right_menu_style = {left: '', top: ''};
   nodes = [];
   fontlist = FONT_LIST;
@@ -82,7 +82,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   }
   setBackGroudColor(o) {
     this.showSetBackGroudColor = false;
-    this.selectedNode.style['background-color'] = o.value;
+    this.selectedNode.style['background-color'] = o.value; // 设置背景色用
   }
 
   clickInput(node) {
@@ -135,7 +135,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
 
   copyNode() {
     this.copy_node = JSON.parse(JSON.stringify(this.cur_node));
-    this.copy_node.id = this.uuid();
+    // this.copy_node.id = this.uuid();
   }
 
   pasteNode(e) {
@@ -143,10 +143,12 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     this.copy_node.id = this.uuid();
     const offset_left = $('#right').offset().left;
     const offset_top = $('#right').offset().top;
-    this.copy_node.style.top = this.mouse_location.top - offset_top + 'px';
-    this.copy_node.style.left = this.mouse_location.left - offset_left + 'px';
-    this.copy_node.style.width = this.cur_node.width;
-    this.copy_node.style.height = this.cur_node.height;
+    this.copy_node.location.top = this.mouse_location.top - offset_top + 'px';
+    this.copy_node.location.left = this.mouse_location.left - offset_left + 'px';
+    this.copy_node.location.width = $('#' + this.cur_node.id).width() + 'px';
+    this.copy_node.location.height = $('#' + this.cur_node.id).height() + 'px';
+    this.copy_node.style.width = $('#shape_' + this.cur_node.id).width() + 'px';
+    this.copy_node.style.height = $('#shape_' + this.cur_node.id).height() + 'px';
     this.nodes[this.copy_node.model_id].push(JSON.parse(JSON.stringify(this.copy_node)));
     this.changeDetectorRef.detectChanges();
     this.setNodeAtribute(this.copy_node.id);
