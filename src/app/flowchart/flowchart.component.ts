@@ -21,6 +21,10 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   fontlist = FONT_LIST;
   LINE_STYLE = {lable: '直线', code : 'Straight'};
   line_style_option = LINE_STYLE_OPTION;
+  TEXT_DIRECTION = 'align-center';
+  TEXT_DIRECTION_OPTION = [{label: '居中', value: 'center'},
+    {label: '居左', value: 'left'},
+    {label: '居右', value: 'right'}];
   FONT_FAMILY: any = {lable: '宋体', code : 'SimSun'};
   FONT_SIZE = 20;  // 默认字体大小
   FONT_STYLE = 'normal';
@@ -83,6 +87,13 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   setBackGroudColor(o) {
     this.showSetBackGroudColor = false;
     this.selectedNode.style['background-color'] = o.value; // 设置背景色用
+  }
+
+  setTextDirection(v) {
+    if (!this.selectedNode.font) {
+      this.selectedNode.font = {};
+    }
+    this.selectedNode.font['text-align'] = v;
   }
 
   clickInput(node) {
@@ -192,6 +203,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       name: '',
       model_id: modelid,
       font: {
+        'text-align': this.TEXT_DIRECTION,
         'font-size': this.FONT_SIZE + 'px',
         'font-family': this.FONT_FAMILY.code,
         'color': this.FONT_COLOR,

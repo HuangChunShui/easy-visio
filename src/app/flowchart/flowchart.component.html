@@ -6,25 +6,48 @@
 </div>
 
 <div id="setting">
-  <p-dropdown [options]="fontlist"  [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
-     optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="FONT_FAMILY">
-  </p-dropdown>
   <app-number-input [(ngModel)]="FONT_SIZE" (valueChange)="setFontSize($event)"></app-number-input>
-  <i class="fa fa-fw fa-bold" style="margin-left: 5px;" (click)="setBold()"></i>
-  <i class="fa fa-fw fa-italic" (click)="setFontStyle()"></i>
-  <i class="fa fa-fw fa-underline" (click)="setUnderline()"></i>
-  <i class="fa fa-fw fa-font" (click)="showSetFontColor = true" [ngStyle]="{color: FONT_COLOR}"></i>
-  <i class="fa fa-fw fa-paint-brush" (click)="showSetBackGroudColor = true" [ngStyle]="{color: BACKGOUND_COLOR}"></i>
+  <p-dropdown [options]="fontlist"  [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
+              optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="FONT_FAMILY"
+              pTooltip="字体" tooltipPosition="bottom">
+  </p-dropdown>
+  <i class="fa fa-fw fa-bold" style="margin-left: 5px;" (click)="setBold()" pTooltip="粗体" tooltipPosition="bottom"></i>
+  <i class="fa fa-fw fa-italic" (click)="setFontStyle()" pTooltip="斜体" tooltipPosition="bottom"></i>
+  <i class="fa fa-fw fa-underline" (click)="setUnderline()" pTooltip="下划线" tooltipPosition="bottom"></i>
+  <i class="fa fa-fw fa-font"  (click)="showSetFontColor = true" [ngStyle]="{color: FONT_COLOR}"
+     pTooltip="文本颜色" tooltipPosition="bottom">
+
+  </i>
+  <i class="fa fa-fw fa-paint-brush" (click)="showSetBackGroudColor = true" [ngStyle]="{color: BACKGOUND_COLOR}"
+     pTooltip="填充样式" tooltipPosition="bottom"
+  ></i>
   <div *ngIf = "showSetFontColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
-    <p-colorPicker  [inline]="true" [(ngModel)]="FONT_COLOR" (onChange)="setFontColor($event)"></p-colorPicker>
+    <p-colorPicker  [inline]="true" [(ngModel)]="FONT_COLOR"
+                    (onChange)="setFontColor($event)"></p-colorPicker>
   </div>
   <div *ngIf = "showSetBackGroudColor" style="z-index: 100001; top: 83px;  left: 514px;position: absolute">
-    <p-colorPicker [(ngModel)]="BACKGOUND_COLOR" [inline]="true" (onChange)="setBackGroudColor($event)"></p-colorPicker>
+    <p-colorPicker [(ngModel)]="BACKGOUND_COLOR" [inline]="true"
+                   pTooltip="填充样式" tooltipPosition="bottom"
+                   (onChange)="setBackGroudColor($event)"></p-colorPicker>
   </div>
+  <p-dropdown id = "text_direction_setting" [options]="TEXT_DIRECTION_OPTION"
+              pTooltip="文字对齐" tooltipPosition="bottom"
+              (ngModelChange) = "setTextDirection($event)"
+              [style]="{'width':'60px','height':'30px','display':'inline-block','left':'3px','background':'#fff'}"
+              [(ngModel)]="TEXT_DIRECTION">
+    <ng-template let-item pTemplate="selectedItem">
+      <i class="fa fa-fw fa-align-{{item.value}}" style=" background: transparent"></i>
+    </ng-template>
+    <ng-template let-item pTemplate="item">
+      <i class="fa fa-fw fa-align-{{item.value}}" style="background: transparent"></i>
+    </ng-template>
+  </p-dropdown>
   <p-dropdown [options]="line_style_option"
+              pTooltip="连线线型" tooltipPosition="bottom"
               [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
               optionLabel="lable" (ngModelChange) = "selectLineStyle($event)" [(ngModel)]="LINE_STYLE">
   </p-dropdown>
+
 </div>
 
 <div id="right" class = "grid" (contextmenu)="right_click_on_blank($event)">

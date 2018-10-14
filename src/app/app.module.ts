@@ -18,6 +18,7 @@ import {ColorPickerModule} from 'primeng/colorpicker';
 import {SpinnerModule} from 'primeng/spinner';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {NumberInputComponent} from './flowchart/number-input.component';
+import {TooltipModule} from 'primeng/tooltip';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
@@ -25,7 +26,7 @@ import {NumberInputComponent} from './flowchart/number-input.component';
   ],
   imports: [
     BrowserModule,
-    DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule,
+    DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
