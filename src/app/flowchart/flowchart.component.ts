@@ -41,6 +41,15 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
 
   }
 
+  enableTextarea(id) {
+    $('#' + id).attr('disabled', false);
+    $('#' + id).focus();
+  }
+
+  disabledTextarea(id) {
+    $('#' + id).attrs('disabled', true);
+  }
+
   selectFont(font) {
     if (!this.selectedNode.font) {
       this.selectedNode.font = {};
@@ -237,7 +246,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
      * 当光标在 draggable 内指定元素（或元素组）上时不允许拖拽。使用 cancel选项来指定取消拖拽功能的 jQuery 选择器
      * **/
     $('#' + id).draggable({
-      // cancel: '.title',
+      cancel: '.title',
       grid: [10, 10],
       containment: $('#right'),
       stop: function () {

@@ -54,8 +54,14 @@
   <div  *ngFor="let m of models">
       <div *ngFor="let node1 of nodes[m.id]" class="container_sharpe container_{{m.name}}"
             (contextmenu)="right_click_on_node($event,node1)" [ngStyle] =node1.location id="{{node1.id}}">
-        <div id= "shape_{{node1.id}}" class="shape {{m.name}}"  [ngStyle] =node1.style >
-        <textarea [(ngModel)] = "node1.name" [ngStyle] = node1.font (focus)="clickInput(node1)" ></textarea>
+        <div id= "shape_{{node1.id}}" class="shape {{m.name}}"  [ngStyle] =node1.style (dblclick)="enableTextarea('text_' + node1.id)" >
+        <textarea id= "text_{{node1.id}}" disabled
+                  [(ngModel)] = "node1.name"
+                  [ngStyle] = node1.font
+                  (blur)="disabledTextarea('text_'+node1.id)"
+                  (focus)="clickInput(node1)" >
+
+        </textarea>
           </div>
       </div>
   </div>
