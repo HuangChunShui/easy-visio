@@ -8,6 +8,7 @@ export class HomeComponent implements OnInit {
   cities1: any;
   selectedCity1: any;
   test = 10;
+  showGrid = true;
   selectFont(v) {
     console.log(v);
   }

@@ -35,6 +35,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   selectedNode: any = {};
   showSetFontColor = false;
   showSetBackGroudColor = false;
+  showGrid = true;
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {

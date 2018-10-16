@@ -47,10 +47,11 @@
               [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
               optionLabel="lable" (ngModelChange) = "selectLineStyle($event)" [(ngModel)]="LINE_STYLE">
   </p-dropdown>
+    <p-checkbox binary="true" label="网格" [(ngModel)]="showGrid"  [style]="{'margin-left': '6px'}"></p-checkbox>
 
 </div>
 
-<div id="right" class = "grid" (contextmenu)="right_click_on_blank($event)">
+<div id="right" [ngClass] = "{'grid': showGrid}" (contextmenu)="right_click_on_blank($event)">
   <div  *ngFor="let m of models">
       <div *ngFor="let node1 of nodes[m.id]" class="container_sharpe container_{{m.name}}"
             (contextmenu)="right_click_on_node($event,node1)" [ngStyle] =node1.location id="{{node1.id}}">
