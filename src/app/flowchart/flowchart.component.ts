@@ -42,6 +42,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
 
   }
 
+
   enableTextarea(id) {
     $('#' + id).attr('disabled', false);
     $('#' + id).focus();
@@ -183,6 +184,10 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
+    jsPlumb.bind('connection', function (connInfo, originalEvent) {
+      connInfo.sourceEndpoint.endpoint.radius = 0;
+      connInfo.targetEndpoint.endpoint.radius = 0;
+    });
     $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
