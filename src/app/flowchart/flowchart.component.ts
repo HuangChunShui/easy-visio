@@ -36,6 +36,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   showSetFontColor = false;
   showSetBackGroudColor = false;
   showGrid = true;
+  data = [];
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -203,6 +204,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
 
   selectLineStyle(l: any) {
     hollowCircle.connector[0] = l.code;
+    this.save();
   }
 
   CreateModel(ui, selector) {
@@ -271,6 +273,63 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       stop: function( event, e ) {
         jsPlumb.repaintEverything();
       }
+    });
+  }
+
+  save() {
+    this.data = [];
+    for (const m of this.models) {
+      if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
+      for (const n of this.nodes[m.id]) {
+        if (!this.data[m.id]) {
+          this.data[m.id] = [];
+        }
+        this.data[m.id].push(
+        {
+          id : n.id,
+          name: n.name,
+          model_id: m.id,
+          font: n.font,
+          // location 即container div的style
+          location: {
+            width: $('#' + m.id).css('width'),
+            height: $('#' + m.id).css('height'),
+            left: $('#' + m.id).position().left,
+            top: $('#' + m.id).position().top,
+          },
+          //  style即shape div的style
+          style: {
+            background: $('#shape_' + m.id).css('background'),
+            width: $('#shape_' + m.id).css('width'),
+            height: $('#shape_' + m.id).css('height')
+          }
+        });
+      }
+    }
+    const connections = [];
+    $.each(jsPlumb.getConnections(), function (idx, connection) {
+      connections.push({
+        connectionId: connection.id,
+        pageSourceId: connection.sourceId,
+        pageTargetId: connection.targetId,
+        anchors: $.map(connection.endpoints, function(endpoint) {
+
+          return [[endpoint.anchor.x,
+            endpoint.anchor.y,
+            endpoint.anchor.orientation[0],
+            endpoint.anchor.orientation[1],
+            endpoint.anchor.offsets[0],
+            endpoint.anchor.offsets[1]]];
+
+        })
+      });
+    });
+    $.each(connections, function( index, elem ) {
+      const connection1 = jsPlumb.connect({
+        source: elem.pageSourceId,
+        target: elem.pageTargetId,
+        anchors: elem.anchors
+      });
     });
   }
 }
