@@ -20,10 +20,11 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {NumberInputComponent} from './flowchart/number-input.component';
 import {TooltipModule} from 'primeng/tooltip';
 import {CheckboxModule} from 'primeng/checkbox';
+import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
-    NumberInputComponent
+    NumberInputComponent, MyFlowchartComponent
   ],
   imports: [
     BrowserModule,

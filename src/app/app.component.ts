@@ -11,14 +11,25 @@ export class AppComponent implements DoCheck {
   }
   isHomeActive = true;
   isFlowchartActive = false;
+  isMyFlowchartActive = false;
   ngDoCheck() {
     if (this.router.url.includes('home')) {
       this.isHomeActive = true;
       this.isFlowchartActive = false;
+      this.isMyFlowchartActive  = false;
+      return;
+    }
+    if (this.router.url.includes('myflowchart')) {
+      this.isHomeActive = false;
+      this.isFlowchartActive = false;
+      this.isMyFlowchartActive  = true;
+      return;
     }
     if (this.router.url.includes('flowchart')) {
       this.isFlowchartActive = true;
       this.isHomeActive = false;
+      this.isMyFlowchartActive  = false;
+      return;
     }
   }
 }

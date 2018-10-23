@@ -10,6 +10,9 @@
   <li [ngClass]="{'active': isFlowchartActive}">
     <a routerLink="flowchart">流程图</a>
   </li>
+  <li [ngClass]="{'active': isMyFlowchartActive}">
+    <a routerLink="myflowchart">我的流程图</a>
+  </li>
 </header>
 <app-home-nav *ngIf="isHomeActive"></app-home-nav>
 <!--<app-flowchart-nav *ngIf="isFlowchartActive"></app-flowchart-nav>-->

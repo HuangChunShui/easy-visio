@@ -1,5 +1,6 @@
 import {HomeComponent} from './home/home.component';
 import {FlowchartComponent} from './flowchart/flowchart.component';
+import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
 
 export const appRoutes = [
   {
@@ -14,5 +15,9 @@ export const appRoutes = [
   {
     path: 'flowchart',
     component: FlowchartComponent
+  },
+  {
+    path: 'myflowchart',
+    component: MyFlowchartComponent
   },
 ];

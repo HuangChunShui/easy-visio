@@ -2,10 +2,10 @@ import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angu
 import { hollowCircle, FONT_LIST, LINE_STYLE_OPTION } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
 @Component({
-  templateUrl: 'flowchart.component.html',
-  styleUrls: ['flowchart.component.less']
+  templateUrl: 'my-flowchart.component.html',
+  styleUrls: ['my-flowchart.component.less']
 })
-export class FlowchartComponent implements OnInit, AfterViewInit {
+export class MyFlowchartComponent implements OnInit, AfterViewInit {
   models = [{id: 0, name: 'radius'},
     {id: 1, name: 'rect'},
     {id: 2, name: 'rect1'},
@@ -35,7 +35,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   selectedNode: any = {};
   showSetFontColor = false;
   showSetBackGroudColor = false;
-  showGrid = true;
+  showGrid = false;
   data = [];
   constructor( private zone: NgZone,
                public util: UtilService,
@@ -177,7 +177,25 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     this.setNodeAtribute(this.copy_node.id);
   }
   ngAfterViewInit() {
-    $('#left .model_container').draggable({
+    setTimeout(() => {
+      this.zone.run(() => {});
+      for (const m of this.models) {
+        if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
+        for (const n of this.nodes[m.id]) {
+          this.setNodeAtribute(n.id);
+        }
+      }
+      this.zone.run(() => {});
+      $.each(this.util.getData().connections, function( index, elem ) {
+        const connection1 = jsPlumb.connect({
+          source: elem.pageSourceId,
+          target: elem.pageTargetId,
+          anchors: elem.anchors
+        });
+      });
+    }, 2000)
+
+    $('#left1 .model_container').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
       helper: 'clone',
@@ -185,11 +203,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    jsPlumb.bind('connection', function (connInfo, originalEvent) {
-      connInfo.sourceEndpoint.endpoint.radius = 0;
-      connInfo.targetEndpoint.endpoint.radius = 0;
-    });
-    $('#right').droppable({
+    $('#right1').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
         this.CreateModel(ui, $('#right'));
@@ -198,6 +212,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     window.onclick = (e) => {
       this.showMenu = false;
     };
+    this.nodes = this.util.getData().nodes;
+
 /*    jsPlumb.bind('connection', function (connInfo, originalEvent) {
     });*/
   }
@@ -294,8 +310,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
           location: {
             width: $('#' + n.id).css('width'),
             height: $('#' + n.id).css('height'),
-            left: $('#' + n.id).position().left + 'px',
-            top: $('#' + n.id).position().top + 'px',
+            left: $('#' + n.id).position().left,
+            top: $('#' + n.id).position().top,
           },
           //  style即shape div的style
           style: {
@@ -324,6 +340,12 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
         })
       });
     });
-    this.util.setData({nodes: this.data, connections: connections});
+    $.each(connections, function( index, elem ) {
+      const connection1 = jsPlumb.connect({
+        source: elem.pageSourceId,
+        target: elem.pageTargetId,
+        anchors: elem.anchors
+      });
+    });
   }
 }
