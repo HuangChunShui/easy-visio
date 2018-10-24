@@ -21,12 +21,14 @@ import {NumberInputComponent} from './flowchart/number-input.component';
 import {TooltipModule} from 'primeng/tooltip';
 import {CheckboxModule} from 'primeng/checkbox';
 import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
     NumberInputComponent, MyFlowchartComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule, CheckboxModule,
     BrowserAnimationsModule,

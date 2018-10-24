@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import { hollowCircle, FONT_LIST, LINE_STYLE_OPTION } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
+import {FlowchartService} from '../services/flowchart.service';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
@@ -40,6 +41,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   JsPlumb = jsPlumb.getInstance();
   constructor( private zone: NgZone,
                public util: UtilService,
+               public flowchartService: FlowchartService,
                public changeDetectorRef: ChangeDetectorRef) {
 
   }
@@ -186,6 +188,9 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
+    this.flowchartService.test().subscribe(() => {
+      console.log("hello");
+    });
     $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
