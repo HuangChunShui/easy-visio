@@ -7,7 +7,7 @@ export let hollowCircle = {
   // connectorHoverStyle: connectorHoverStyle,
   paintStyle: {
     strokeWidth: 1,
-    fill: 'blue',
+    fill: 'red',
     outlineStroke: 'white',
   },      // 端点的颜色样式
   anchor: 'AutoDefault',

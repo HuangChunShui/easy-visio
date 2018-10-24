@@ -37,6 +37,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   showSetBackGroudColor = false;
   showGrid = true;
   data = [];
+  JsPlumb = jsPlumb.getInstance();
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -149,11 +150,11 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   }
 
   deleteNode() {
-    jsPlumb.removeAllEndpoints($('#' + this.cur_node.id));
+    this.JsPlumb.removeAllEndpoints($('#' + this.cur_node.id));
     this.nodes[this.cur_node.model_id] =  this.nodes[this.cur_node.model_id].filter(
       (e: any) =>  e.id !== this.cur_node.id);
     $('#' + this.cur_node.id).remove();
-    jsPlumb.repaintEverything();
+    this.JsPlumb.repaintEverything();
   }
 
   copyNode() {
@@ -185,10 +186,6 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    jsPlumb.bind('connection', function (connInfo, originalEvent) {
-      connInfo.sourceEndpoint.endpoint.radius = 0;
-      connInfo.targetEndpoint.endpoint.radius = 0;
-    });
     $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
@@ -198,13 +195,10 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     window.onclick = (e) => {
       this.showMenu = false;
     };
-/*    jsPlumb.bind('connection', function (connInfo, originalEvent) {
-    });*/
   }
 
   selectLineStyle(l: any) {
     hollowCircle.connector[0] = l.code;
-    this.save();
   }
 
   CreateModel(ui, selector) {
@@ -245,8 +239,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
  * 3. 设置node为可缩放
  * ****/
   setNodeAtribute(id) {
-    jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
-    jsPlumb.draggable(id, {
+    this.JsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
+    this.JsPlumb.draggable(id, {
       grid: [10, 10]
     });
     /****
@@ -257,21 +251,21 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       cancel: '.title',
       grid: [10, 10],
       containment: $('#right'),
-      stop: function () {
-        jsPlumb.repaintEverything();
+      stop:  () => {
+        this.JsPlumb.repaintEverything();
       },
-      start: function () {
-        jsPlumb.repaintEverything();
+      start:  () => {
+        this.JsPlumb.repaintEverything();
       },
       drag:  (event, _ui) => {
-        jsPlumb.repaintEverything();
+        this.JsPlumb.repaintEverything();
       }
     });
     $('#' + id).resizable({
       aspectRatio: true, // 保持纵横比
       autoHide : true, // 隐藏缩放手柄
-      stop: function( event, e ) {
-        jsPlumb.repaintEverything();
+      stop: ( event, e ) => {
+        this.JsPlumb.repaintEverything();
       }
     });
   }
@@ -307,13 +301,13 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       }
     }
     const connections = [];
-    $.each(jsPlumb.getConnections(), function (idx, connection) {
+    $.each(this.JsPlumb.getConnections(),  (idx, connection) => {
       connections.push({
         connectionId: connection.id,
         pageSourceId: connection.sourceId,
         pageTargetId: connection.targetId,
-        anchors: $.map(connection.endpoints, function(endpoint) {
-
+        connector: [connection.connector.type],
+        anchors: $.map(connection.endpoints, (endpoint) => {
           return [[endpoint.anchor.x,
             endpoint.anchor.y,
             endpoint.anchor.orientation[0],

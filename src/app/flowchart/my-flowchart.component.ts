@@ -37,6 +37,7 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
   showSetBackGroudColor = false;
   showGrid = false;
   data = [];
+  JsPlumb = jsPlumb.getInstance();
   constructor( private zone: NgZone,
                public util: UtilService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -149,11 +150,11 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
   }
 
   deleteNode() {
-    jsPlumb.removeAllEndpoints($('#' + this.cur_node.id));
+    this.JsPlumb.removeAllEndpoints($('#' + this.cur_node.id));
     this.nodes[this.cur_node.model_id] =  this.nodes[this.cur_node.model_id].filter(
       (e: any) =>  e.id !== this.cur_node.id);
     $('#' + this.cur_node.id).remove();
-    jsPlumb.repaintEverything();
+    this.JsPlumb.repaintEverything();
   }
 
   copyNode() {
@@ -177,7 +178,6 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
     this.setNodeAtribute(this.copy_node.id);
   }
   ngAfterViewInit() {
-    setTimeout(() => {
       this.zone.run(() => {});
       for (const m of this.models) {
         if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
@@ -186,15 +186,21 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
         }
       }
       this.zone.run(() => {});
-      $.each(this.util.getData().connections, function( index, elem ) {
-        const connection1 = jsPlumb.connect({
+      $.each(this.util.getData().connections, ( index, elem ) => {
+          const connection1 = this.JsPlumb.connect({
+          connector: elem.connector,
+          endpoint: [ 'Dot', { radius: 5} ],
+          endpointStyle: {
+            strokeWidth: 1,
+            fill: 'blue',
+            outlineStroke: 'white',
+          },
+            overlays: [[ 'Arrow', { width: 8, length: 8, location: 1 }]],
           source: elem.pageSourceId,
           target: elem.pageTargetId,
           anchors: elem.anchors
         });
       });
-    }, 2000)
-
     $('#left1 .model_container').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
       containment: 'document',
@@ -213,9 +219,6 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
       this.showMenu = false;
     };
     this.nodes = this.util.getData().nodes;
-
-/*    jsPlumb.bind('connection', function (connInfo, originalEvent) {
-    });*/
   }
 
   selectLineStyle(l: any) {
@@ -261,8 +264,8 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
  * 3. 设置node为可缩放
  * ****/
   setNodeAtribute(id) {
-    jsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
-    jsPlumb.draggable(id, {
+    this.JsPlumb.addEndpoints(id, [{ anchor: 'Right'}, { anchor: 'Left' }, { anchor: 'Top' }, { anchor: 'Bottom' }], hollowCircle);
+    this.JsPlumb.draggable(id, {
       grid: [10, 10]
     });
     /****
@@ -273,21 +276,21 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
       cancel: '.title',
       grid: [10, 10],
       containment: $('#right'),
-      stop: function () {
-        jsPlumb.repaintEverything();
+      stop:  () => {
+        this.JsPlumb.repaintEverything();
       },
-      start: function () {
-        jsPlumb.repaintEverything();
+      start:  () => {
+        this.JsPlumb.repaintEverything();
       },
       drag:  (event, _ui) => {
-        jsPlumb.repaintEverything();
+        this.JsPlumb.repaintEverything();
       }
     });
     $('#' + id).resizable({
       aspectRatio: true, // 保持纵横比
       autoHide : true, // 隐藏缩放手柄
-      stop: function( event, e ) {
-        jsPlumb.repaintEverything();
+      stop: ( event, e ) => {
+        this.JsPlumb.repaintEverything();
       }
     });
   }
@@ -323,12 +326,12 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
       }
     }
     const connections = [];
-    $.each(jsPlumb.getConnections(), function (idx, connection) {
+    $.each(this.JsPlumb.getConnections(), (idx, connection) => {
       connections.push({
         connectionId: connection.id,
         pageSourceId: connection.sourceId,
         pageTargetId: connection.targetId,
-        anchors: $.map(connection.endpoints, function(endpoint) {
+        anchors: $.map(connection.endpoints, (endpoint) => {
 
           return [[endpoint.anchor.x,
             endpoint.anchor.y,
@@ -340,8 +343,8 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
         })
       });
     });
-    $.each(connections, function( index, elem ) {
-      const connection1 = jsPlumb.connect({
+    $.each(connections, ( index, elem ) => {
+      const connection1 = this.JsPlumb.connect({
         source: elem.pageSourceId,
         target: elem.pageTargetId,
         anchors: elem.anchors

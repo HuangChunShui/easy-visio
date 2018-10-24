@@ -48,7 +48,7 @@
               optionLabel="lable" (ngModelChange) = "selectLineStyle($event)" [(ngModel)]="LINE_STYLE">
   </p-dropdown>
     <p-checkbox binary="true" label="网格" [(ngModel)]="showGrid"  [style]="{'margin-left': '6px'}"></p-checkbox>
-
+  <button pButton style=" padding: 0px; height: 30px;" type="button" label="保存" ></button>
 </div>
 
 <div id="right1" [ngClass] = "{'grid': showGrid}" (contextmenu)="right_click_on_blank($event)">
