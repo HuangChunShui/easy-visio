@@ -1,15 +1,44 @@
-<h1>building</h1>
-<!--<div class="input-group">
-  <input id="input-number-mod"  name = "input-number" [(ngModel)]="test"
-         class="form-control mod" type="number" (ngModelChange)="selectFont($event)" />
-  <div class="input-group-repend">
-    <span class="input-group-text">px</span>
+<!--<p-table [value]="cars">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Vin</th>
+      <th>Year</th>
+      <th>Brand</th>
+      <th>Color</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-car>
+    <tr>
+      <td>{{car.vin}}</td>
+      <td>{{car.year}}</td>
+      <td>{{car.brand}}</td>
+      <td>{{car.color}}</td>
+    </tr>
+  </ng-template>
+</p-table>-->
+<!--<h4>创建用户</h4>
+<form>
+  <label class="first">Basic</label><input style="margin-top: 4px" id="input" type="text" size="30" pInputText [(ngModel)]="text"/>
+</form>-->
+<form style="position: relative;top:50px;background: #d9d9d9;width: 800px">
+  <div class="form-group row">
+    <label for="inputEmail3" class="col-sm-1 col-form-label">邮箱</label>
+    <div class="col-sm-5">
+      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+    </div>
   </div>
-</div>-->
-<!--<div class="test">
-  <textarea style="background: #8e8e8e;  transform:rotate(45deg)"></textarea>
-  <textarea style=" background: yellow "></textarea>
-</div>
-<div class="test" style="background: greenyellow">
-  <textarea style="transform:rotate(45deg); background: yellow ;width: 71%;height: 71%"></textarea>
-</div>-->
+  <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-1 col-form-label">密码</label>
+    <div class="col-sm-5">
+      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-5">
+      <button type="submit" class="btn btn-primary">确定</button>
+      <button type="submit" class="btn btn-primary">返回</button>
+    </div>
+
+  </div>
+</form>

@@ -22,6 +22,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {CheckboxModule} from 'primeng/checkbox';
 import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
 import { HttpClientModule } from '@angular/common/http';
+import {TableModule} from 'primeng/table';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     HttpClientModule,
+    TableModule,
     BrowserModule,
     DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule, CheckboxModule,
     BrowserAnimationsModule,
