@@ -5,7 +5,7 @@
 
 </div>
 
-<div id="setting1">
+<div id="setting">
   <app-number-input [(ngModel)]="FONT_SIZE" (valueChange)="setFontSize($event)"></app-number-input>
   <p-dropdown [options]="fontlist"  [style]="{'width':'100px','display':'inline-block','left':'3px','background':'#fff'}"
               optionLabel="lable" (ngModelChange) = "selectFont($event)" [(ngModel)]="FONT_FAMILY"
@@ -51,7 +51,7 @@
   <button pButton style=" padding: 0px; height: 30px;" type="button" label="保存" ></button>
 </div>
 
-<div id="right1" [ngClass] = "{'grid': showGrid}" (contextmenu)="right_click_on_blank($event)">
+<div id="right" [ngClass] = "{'grid': showGrid}" (contextmenu)="right_click_on_blank($event)">
   <div  *ngFor="let m of models">
       <div *ngFor="let node1 of nodes[m.id]" class="container_sharpe container_{{m.name}}"
             (contextmenu)="right_click_on_node($event,node1)" [ngStyle] =node1.location id="{{node1.id}}">

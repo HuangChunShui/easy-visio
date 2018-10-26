@@ -209,7 +209,7 @@ export class MyFlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    $('#right1').droppable({
+    $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
         this.CreateModel(ui, $('#right'));
