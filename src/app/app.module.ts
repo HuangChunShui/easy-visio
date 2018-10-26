@@ -23,10 +23,12 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
 import { HttpClientModule } from '@angular/common/http';
 import {TableModule} from 'primeng/table';
+import {LoginComponent} from './login/login.component';
+import {FullComponent} from './full.component';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
-    NumberInputComponent, MyFlowchartComponent
+    NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent
   ],
   imports: [
     HttpClientModule,

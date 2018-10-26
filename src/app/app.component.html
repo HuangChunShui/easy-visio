@@ -1,21 +1,2 @@
-<header class="navbar navbar-fixed-top">
-  <!--  <div class="navbar-brand">
-      <a href="javascript:;" routerLink="/home">
-        <img src="../assets/images/home/logo.svg"/>
-      </a>
-    </div>-->
-  <li [ngClass]="{'active': isHomeActive}">
-    <a routerLink="home">首页</a>
-  </li>
-  <li [ngClass]="{'active': isFlowchartActive}">
-    <a routerLink="flowchart">流程图</a>
-  </li>
-  <li [ngClass]="{'active': isMyFlowchartActive}">
-    <a routerLink="myflowchart">我的流程图</a>
-  </li>
-</header>
-<app-home-nav *ngIf="isHomeActive"></app-home-nav>
-<!--<app-flowchart-nav *ngIf="isFlowchartActive"></app-flowchart-nav>-->
-<div [ngClass]="{'main-content': isHomeActive}">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
+
