@@ -2,12 +2,12 @@
  * Created by root on 9/15/18.
  */
 export let hollowCircle = {
-  endpoint: ['Dot', { radius: 5 }],  // 端点的形状
+  endpoint: ['Dot', { radius: 3 }],  // 端点的形状
   // connectorStyle: connectorPaintStyle,// 连接线的颜色，大小样式
   // connectorHoverStyle: connectorHoverStyle,
   paintStyle: {
     strokeWidth: 1,
-    fill: 'red',
+    fill: 'blue',
     outlineStroke: 'white',
   },      // 端点的颜色样式
   anchor: 'AutoDefault',

@@ -7,6 +7,6 @@ import { Router} from '@angular/router';
 export class LoginComponent  {
   constructor(private router: Router) {}
   login() {
-    this.router.navigateByUrl('/full/home');
+    this.router.navigateByUrl('/full/flowchart');
   }
 }
