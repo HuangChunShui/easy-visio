@@ -18,16 +18,26 @@ export class FullComponent implements DoCheck {
       this.isHomeActive = true;
       this.isFlowchartActive = false;
       this.isMyFlowchartActive  = false;
+      this.isFileListActive = false;
       return;
     }
     if (this.router.url.includes('myflowchart')) {
       this.isHomeActive = false;
       this.isFlowchartActive = false;
       this.isMyFlowchartActive  = true;
+      this.isFileListActive = false;
       return;
     }
     if (this.router.url.includes('flowchart')) {
       this.isFlowchartActive = true;
+      this.isHomeActive = false;
+      this.isMyFlowchartActive  = false;
+      this.isFileListActive = false;
+      return;
+    }
+    if (this.router.url.includes('filelist')) {
+      this.isFileListActive = true;
+      this.isFlowchartActive = false;
       this.isHomeActive = false;
       this.isMyFlowchartActive  = false;
       return;

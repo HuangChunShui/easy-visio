@@ -25,18 +25,20 @@ import { HttpClientModule } from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {LoginComponent} from './login/login.component';
 import {FullComponent} from './full.component';
-import {FileListComponent} from './flowchart/filelist.component';
+import {FileListComponent} from './filelist/filelist.component';
+import {FileListNavComponent} from './filelist/nav/nav.component';
+import {SplitButtonModule} from 'primeng/splitbutton';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
-    NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent, FileListComponent
+    NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent, FileListComponent, FileListNavComponent
   ],
   imports: [
     HttpClientModule,
     TableModule,
     BrowserModule,
     DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule, CheckboxModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule, SplitButtonModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],

@@ -30,8 +30,8 @@
     <a routerLink="filelist">文件列表</a>
   </li>
 </header>
-<!--<app-home-nav *ngIf="isHomeActive"></app-home-nav>-->
+<filelist-nav *ngIf="isFileListActive"></filelist-nav>
 <!--<app-flowchart-nav *ngIf="isFlowchartActive"></app-flowchart-nav>-->
-<div [ngClass]="{'main-content': false}">
+<div [ngClass]="{'main-content': isFileListActive}">
   <router-outlet></router-outlet>
 </div>
