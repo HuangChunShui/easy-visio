@@ -188,9 +188,6 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    this.flowchartService.test().subscribe(() => {
-      console.log("hello");
-    });
     $('#right').droppable({
       scope: 'r',
       drop:  (event, ui: any) => {
