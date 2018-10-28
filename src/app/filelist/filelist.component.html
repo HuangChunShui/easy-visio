@@ -1,6 +1,10 @@
-<button pButton icon="pi pi-plus" iconPos="left" label="添加" style="padding:0px;
-margin-bottom: 10px;margin-top: 10px;"></button>
-
+<button pButton type = "button"
+        class="ui-button-success"
+        icon="pi pi-plus"
+        iconPos="left"
+        label="添加"
+        style="padding:0px;margin-bottom: 10px;margin-top: 10px;background: yellowgreen;border-width: 0px">
+</button>
 <p-table [value]="filelist">
   <ng-template pTemplate="header">
     <tr>
@@ -16,7 +20,10 @@ margin-bottom: 10px;margin-top: 10px;"></button>
       <td style="text-align: center">{{file.create_at}}</td>
       <td style="text-align: center">{{file.modify_at}}</td>
       <td style="text-align: center">
-        <button pButton style="padding:0px;" (onClick)="delete(file.id)" label="删除"></button>
-        <button pButton style="padding:0px;" (onClick)="edit(file.id)" label="编辑"></button></td>
+        <button pButton class="ui-button-danger" style="padding:0px;background: #e91224; border-width: 0px"
+                (onClick)="delete(file.id)" label="删除">
+
+        </button>
+        <button pButton style="padding:0px;border-width: 0px" (onClick)="edit(file.id)" label="编辑"></button></td>
   </ng-template>
 </p-table>
