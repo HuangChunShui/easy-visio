@@ -25,10 +25,11 @@ import { HttpClientModule } from '@angular/common/http';
 import {TableModule} from 'primeng/table';
 import {LoginComponent} from './login/login.component';
 import {FullComponent} from './full.component';
+import {FileListComponent} from './flowchart/filelist.component';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
-    NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent
+    NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent, FileListComponent
   ],
   imports: [
     HttpClientModule,

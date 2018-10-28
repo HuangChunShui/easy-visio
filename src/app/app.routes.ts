@@ -3,6 +3,7 @@ import {FlowchartComponent} from './flowchart/flowchart.component';
 import {MyFlowchartComponent} from './flowchart/my-flowchart.component';
 import {LoginComponent} from './login/login.component';
 import {FullComponent} from './full.component';
+import {FileListComponent} from './flowchart/filelist.component';
 
 export const appRoutes = [
   {
@@ -30,6 +31,10 @@ export const appRoutes = [
         path: 'myflowchart',
         component: MyFlowchartComponent
       },
+      {
+        path: 'filelist',
+        component: FileListComponent
+      }
     ]
   }
 ];

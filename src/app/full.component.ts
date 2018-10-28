@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 export class FullComponent implements DoCheck {
   constructor(public router: Router) {
   }
+  isFileListActive = false
   isHomeActive = true;
   isFlowchartActive = false;
   isMyFlowchartActive = false;
