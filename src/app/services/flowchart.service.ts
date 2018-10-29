@@ -12,4 +12,8 @@ export class FlowchartService {
   test (): any {
     return this.http.get('/api/test');
   }
+
+  login(data: any): any {
+    return this.http.post('/api/session', JSON.stringify(data)).toPromise();
+  }
 }

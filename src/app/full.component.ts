@@ -13,6 +13,16 @@ export class FullComponent implements DoCheck {
   isHomeActive = true;
   isFlowchartActive = false;
   isMyFlowchartActive = false;
+  items = [
+    {
+      label: 'Edit',
+      icon: 'pi pi-fw pi-pencil',
+      items: [
+        {label: 'Delete', icon: 'pi pi-fw pi-trash'},
+        {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
+      ]
+    }
+  ];
   ngDoCheck() {
     if (this.router.url.includes('home')) {
       this.isHomeActive = true;

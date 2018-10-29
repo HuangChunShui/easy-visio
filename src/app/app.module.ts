@@ -28,6 +28,8 @@ import {FullComponent} from './full.component';
 import {FileListComponent} from './filelist/filelist.component';
 import {FileListNavComponent} from './filelist/nav/nav.component';
 import {SplitButtonModule} from 'primeng/splitbutton';
+import {MessagesModule} from 'primeng/messages';
+import {MenubarModule} from 'primeng/menubar';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
@@ -38,7 +40,7 @@ import {SplitButtonModule} from 'primeng/splitbutton';
     TableModule,
     BrowserModule,
     DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule, CheckboxModule,
-    BrowserAnimationsModule, SplitButtonModule,
+    BrowserAnimationsModule, SplitButtonModule, MessagesModule, MenubarModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
