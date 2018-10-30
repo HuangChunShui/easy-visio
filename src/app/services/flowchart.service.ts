@@ -6,7 +6,7 @@ import {
   providedIn: 'root',
 })
 export class FlowchartService {
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {
 
   }
   test (): any {
@@ -15,5 +15,21 @@ export class FlowchartService {
 
   login(data: any): any {
     return this.http.post('/api/session', JSON.stringify(data)).toPromise();
+  }
+
+  addFlowchart(data: any): any {
+    return this.http.post('/api/flowcharts', JSON.stringify(data)).toPromise();
+  }
+
+  getFlowcharts(): any {
+    return this.http.get('/api/flowcharts').toPromise();
+  }
+
+  getFlowchart(id: string): any {
+    return this.http.get('/api/flowcharts/' + id).toPromise();
+  }
+
+  delFlowchart(id: string): any {
+    return this.http.delete('/api/flowcharts/' + id).toPromise();
   }
 }

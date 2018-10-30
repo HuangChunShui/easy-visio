@@ -21,9 +21,9 @@
       <td style="text-align: center">{{file.modify_at}}</td>
       <td style="text-align: center">
         <button pButton class="ui-button-danger" style="padding:0px;background: #e91224; border-width: 0px"
-                (onClick)="delete(file.id)" label="删除">
+                (click)="delete(file.id)" label="删除">
 
         </button>
-        <button pButton style="padding:0px;border-width: 0px" (onClick)="edit(file.id)" label="编辑"></button></td>
+        <button pButton style="padding:0px;border-width: 0px" (click)="edit(file.id)" label="编辑"></button></td>
   </ng-template>
 </p-table>

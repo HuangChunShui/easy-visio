@@ -320,6 +320,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
         })
       });
     });
-    this.util.setData({nodes: this.data, connections: connections});
+    this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
+    // this.util.setData({nodes: this.data, connections: connections});
   }
 }
