@@ -21,12 +21,18 @@ export class FlowchartService {
     return this.http.post('/api/flowcharts', JSON.stringify(data)).toPromise();
   }
 
+  editFlowchart(id: string, data: any): any {
+    return this.http.put('/api/flowcharts/' + id, JSON.stringify(data)).toPromise();
+  }
+
   getFlowcharts(): any {
     return this.http.get('/api/flowcharts').toPromise();
   }
 
   getFlowchart(id: string): any {
-    return this.http.get('/api/flowcharts/' + id).toPromise();
+    return this.http.get('/api/flowcharts/' + id).toPromise().then((res: any) => {
+      return JSON.parse(res);
+    });
   }
 
   delFlowchart(id: string): any {

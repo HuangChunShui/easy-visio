@@ -1,6 +1,7 @@
 import {Component, forwardRef, OnInit, Output, EventEmitter} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {FlowchartService} from '../services/flowchart.service';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: 'filelist.component.html'
@@ -12,7 +13,8 @@ export class FileListComponent  implements OnInit{
     { field: 'modify_at', header: 'modify_at' }
   ];
   filelist = [];
-  constructor(public flowchartService: FlowchartService) {}
+  constructor(public flowchartService: FlowchartService,
+  private router: Router) {}
   ngOnInit() {
     this.getData();
   }
@@ -32,5 +34,13 @@ export class FileListComponent  implements OnInit{
   }
   edit(id) {
     console.log('edit:', id);
+  }
+
+  detail(id) {
+    this.router.navigate(['/full/myflowchart'], {queryParams: {id: id }});
+  }
+
+  add() {
+    this.router.navigateByUrl('/full/flowchart');
   }
 }

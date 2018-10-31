@@ -29,7 +29,7 @@ export const appRoutes = [
       },
       {
         path: 'myflowchart',
-        component: MyFlowchartComponent
+        component: FlowchartComponent
       },
       {
         path: 'filelist',

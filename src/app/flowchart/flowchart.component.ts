@@ -2,6 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angu
 import { hollowCircle, FONT_LIST, LINE_STYLE_OPTION } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
 import {FlowchartService} from '../services/flowchart.service';
+import {ActivatedRoute, Params} from '@angular/router';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
@@ -39,8 +40,10 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   showGrid = true;
   data = [];
   JsPlumb = jsPlumb.getInstance();
+  id = '';
   constructor( private zone: NgZone,
                public util: UtilService,
+              private  activatedRoute: ActivatedRoute,
                public flowchartService: FlowchartService,
                public changeDetectorRef: ChangeDetectorRef) {
 
@@ -179,6 +182,33 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     this.changeDetectorRef.detectChanges();
     this.setNodeAtribute(this.copy_node.id);
   }
+
+  loadFlowchart(connections) {
+    this.zone.run(() => {});
+    for (const m of this.models) {
+      if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
+      for (const n of this.nodes[m.id]) {
+        this.setNodeAtribute(n.id);
+      }
+    }
+    this.zone.run(() => {});
+    $.each(connections, ( index, elem ) => {
+      const connection1 = this.JsPlumb.connect({
+        connector: elem.connector,
+        endpoint: [ 'Dot', { radius: 5} ],
+        endpointStyle: {
+          strokeWidth: 1,
+          fill: 'blue',
+          outlineStroke: 'white',
+        },
+        overlays: [[ 'Arrow', { width: 8, length: 8, location: 1 }]],
+        source: elem.pageSourceId,
+        target: elem.pageTargetId,
+        anchors: elem.anchors
+      });
+    });
+  }
+
   ngAfterViewInit() {
     $('#left .model_container').draggable({
       revert: 'invalid', //  当未被放置时，条目会还原回它的初始位置
@@ -197,6 +227,17 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     window.onclick = (e) => {
       this.showMenu = false;
     };
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.id = params['id'];
+      if (this.id) {
+        this.flowchartService.getFlowchart(this.id).then((res) => {
+          this.nodes = res.content.nodes;
+          // this.zone.run(() => {});
+          this.changeDetectorRef.detectChanges();
+          this.loadFlowchart(res.content.connections);
+        });
+      }
+    });
   }
 
   selectLineStyle(l: any) {
@@ -320,7 +361,11 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
         })
       });
     });
-    this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
+    if (this.id) {
+      this.flowchartService.editFlowchart(this.id, {name: '123', data: {nodes: this.data, connections: connections}});
+    } else {
+      this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
+    }
     // this.util.setData({nodes: this.data, connections: connections});
   }
 }

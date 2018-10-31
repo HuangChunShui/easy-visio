@@ -55,12 +55,14 @@ server.put('/api/flowcharts/:id', function (req, res, next) {
     if(f.id === req.params.id) {
       f.modify_at = new Date().toISOString();
       f.name = req.name;
-      f.content = req.content;
+      f.content = req.data;
       res.send(200,req.body);
       return
     }
   });
+/*
   res.send(400, {errorMsg: '文件'+ req.name +'不存在'});
+*/
 });
 
 
