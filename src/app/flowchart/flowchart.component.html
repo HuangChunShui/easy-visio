@@ -48,7 +48,7 @@
               optionLabel="lable" (ngModelChange) = "selectLineStyle($event)" [(ngModel)]="LINE_STYLE">
   </p-dropdown>
     <p-checkbox binary="true" label="网格" [(ngModel)]="showGrid"  [style]="{'margin-left': '6px'}"></p-checkbox>
-    <button pButton style=" padding: 0px; height: 30px;color:black" type="button" (click) = "save()" label="保存" ></button>
+    <button pButton  style=" padding: 0px; height: 30px;color:black" type="button" (click) = "save()" label="保存" ></button>
 </div>
 
 <div id="right" [ngClass] = "{'grid': showGrid}" (contextmenu)="right_click_on_blank($event)">
@@ -66,9 +66,31 @@
           </div>
       </div>
   </div>
+
 </div>
 
 <app-context-menu *ngIf="showMenu"
                   (operate)="menu_click($event)"
                   [custom_style]="right_menu_style">
 </app-context-menu>
+
+<div class="modal fade"  *ngIf="showModal"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">文件保存为</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="name">文件名</label>
+          <input type="text" class="form-control" id="name" placeholder="请输入名称">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">提交更改</button>
+      </div>
+    </div>
+  </div>
+</div>

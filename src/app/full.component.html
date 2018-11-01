@@ -30,8 +30,18 @@
     <a routerLink="filelist">文件列表</a>
   </li>
   <li style="float: right">
-  <p-menubar [model]="items"></p-menubar>
+    <a routerLink="filelist">
+      <i class = "fa fa-fw fa-user-circle"></i>
+      admin
+      <i class = "fa fa-fw fa-caret-down"></i>
+    </a>
+    <ul class="dropdown-menu"
+        aria-labelledby="dropdownMenu1"
+        style="padding-left: 0px; margin-top: 0px;  margin-bottom: 0px;">
+      <li><a href="#" (click)="logout()" style="padding-top: 10px;padding-bottom: 10px;">退出</a></li>
+    </ul>
   </li>
+
 </header>
 <filelist-nav *ngIf="isFileListActive"></filelist-nav>
 <!--<app-flowchart-nav *ngIf="isFlowchartActive"></app-flowchart-nav>-->

@@ -41,6 +41,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   data = [];
   JsPlumb = jsPlumb.getInstance();
   id = '';
+  showModal = false;
   constructor( private zone: NgZone,
                public util: UtilService,
               private  activatedRoute: ActivatedRoute,
@@ -314,6 +315,8 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   }
 
   save() {
+    this.showModal = true;
+    $("#myModal").modal();
     this.data = [];
     for (const m of this.models) {
       if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
@@ -364,7 +367,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     if (this.id) {
       this.flowchartService.editFlowchart(this.id, {name: '123', data: {nodes: this.data, connections: connections}});
     } else {
-      this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
+      // this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
     }
     // this.util.setData({nodes: this.data, connections: connections});
   }

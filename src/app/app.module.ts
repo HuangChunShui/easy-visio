@@ -30,6 +30,7 @@ import {FileListNavComponent} from './filelist/nav/nav.component';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {MessagesModule} from 'primeng/messages';
 import {MenubarModule} from 'primeng/menubar';
+import {DialogModule} from 'primeng/dialog';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
@@ -40,7 +41,7 @@ import {MenubarModule} from 'primeng/menubar';
     TableModule,
     BrowserModule,
     DropdownModule, InputTextModule, ButtonModule, ColorPickerModule, SpinnerModule, SelectButtonModule, TooltipModule, CheckboxModule,
-    BrowserAnimationsModule, SplitButtonModule, MessagesModule, MenubarModule,
+    BrowserAnimationsModule, SplitButtonModule, MessagesModule, MenubarModule,DialogModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],

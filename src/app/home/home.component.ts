@@ -10,6 +10,7 @@ export class HomeComponent implements OnInit {
   test = 10;
   showGrid = true;
   cols = [];
+  display = true;
   cars: any = [{ vin: 1 , year: 1,
   brand: 1,
   color: 1}];
@@ -29,5 +30,8 @@ export class HomeComponent implements OnInit {
     } else { // 是IE盒子模型
      console.log('W3C盒IE子模型') ;
     }
+    setTimeout(()=> {
+      $("#myModal").modal();
+    },2000)
   }
 }

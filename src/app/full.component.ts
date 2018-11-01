@@ -53,4 +53,7 @@ export class FullComponent implements DoCheck {
       return;
     }
   }
+  logout() {
+    this.router.navigateByUrl('/login');
+  }
 }
