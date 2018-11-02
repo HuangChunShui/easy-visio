@@ -1,0 +1,29 @@
+<div  class="modal fade"   style="position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 240px;
+    width: 70%;"
+     id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">文件保存为</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <label>文件名</label>
+        <input type="email" id="username" class="form-control"  name = "filename"
+               style = " width: 326px;display:inline"
+
+               [(ngModel)]="filename" placeholder="文件名" required autofocus>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">提交更改</button>
+      </div>
+    </div>
+  </div>
+</div>

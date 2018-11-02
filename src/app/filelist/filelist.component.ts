@@ -13,6 +13,7 @@ export class FileListComponent  implements OnInit{
     { field: 'modify_at', header: 'modify_at' }
   ];
   filelist = [];
+  edit_id = '';
   constructor(public flowchartService: FlowchartService,
   private router: Router) {}
   ngOnInit() {
@@ -33,6 +34,8 @@ export class FileListComponent  implements OnInit{
     });
   }
   edit(id) {
+    this.edit_id = id;
+    $('#myModal').modal();
     console.log('edit:', id);
   }
 
@@ -42,5 +45,11 @@ export class FileListComponent  implements OnInit{
 
   add() {
     this.router.navigateByUrl('/full/flowchart');
+  }
+
+  modifyFilename(filename: string) {
+    this.flowchartService.editFlowchart(this.edit_id, {name: filename}).then(() => {
+      this.getData();
+    });
   }
 }

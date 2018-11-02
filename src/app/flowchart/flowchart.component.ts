@@ -2,7 +2,8 @@ import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angu
 import { hollowCircle, FONT_LIST, LINE_STYLE_OPTION } from './flowchart.conf';
 import {UtilService} from '../services/util.service';
 import {FlowchartService} from '../services/flowchart.service';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Message} from 'primeng/api';
 @Component({
   templateUrl: 'flowchart.component.html',
   styleUrls: ['flowchart.component.less']
@@ -42,8 +43,11 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
   JsPlumb = jsPlumb.getInstance();
   id = '';
   showModal = false;
+  msgs: Message[] = [];
+  filename = '';
   constructor( private zone: NgZone,
                public util: UtilService,
+              private router: Router,
               private  activatedRoute: ActivatedRoute,
                public flowchartService: FlowchartService,
                public changeDetectorRef: ChangeDetectorRef) {
@@ -232,6 +236,7 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
       this.id = params['id'];
       if (this.id) {
         this.flowchartService.getFlowchart(this.id).then((res) => {
+          this.filename = res.name;
           this.nodes = res.content.nodes;
           // this.zone.run(() => {});
           this.changeDetectorRef.detectChanges();
@@ -314,61 +319,78 @@ export class FlowchartComponent implements OnInit, AfterViewInit {
     });
   }
 
-  save() {
-    this.showModal = true;
-    $("#myModal").modal();
-    this.data = [];
-    for (const m of this.models) {
-      if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
-      for (const n of this.nodes[m.id]) {
-        if (!this.data[m.id]) {
-          this.data[m.id] = [];
-        }
-        this.data[m.id].push(
-        {
-          id : n.id,
-          name: n.name,
-          model_id: m.id,
-          font: n.font,
-          // location 即container div的style
-          location: {
-            width: $('#' + n.id).css('width'),
-            height: $('#' + n.id).css('height'),
-            left: $('#' + n.id).position().left + 'px',
-            top: $('#' + n.id).position().top + 'px',
-          },
-          //  style即shape div的style
-          style: {
-            background: $('#shape_' + n.id).css('background'),
-            width: $('#shape_' + n.id).css('width'),
-            height: $('#shape_' + n.id).css('height')
-          }
-        });
-      }
-    }
-    const connections = [];
-    $.each(this.JsPlumb.getConnections(),  (idx, connection) => {
-      connections.push({
-        connectionId: connection.id,
-        pageSourceId: connection.sourceId,
-        pageTargetId: connection.targetId,
-        connector: [connection.connector.type],
-        anchors: $.map(connection.endpoints, (endpoint) => {
-          return [[endpoint.anchor.x,
-            endpoint.anchor.y,
-            endpoint.anchor.orientation[0],
-            endpoint.anchor.orientation[1],
-            endpoint.anchor.offsets[0],
-            endpoint.anchor.offsets[1]]];
+   modifyFilename(name) {
+     this.data = [];
+     for (const m of this.models) {
+       if (!this.nodes[m.id]) { this.nodes[m.id] = []; }
+       for (const n of this.nodes[m.id]) {
+         if (!this.data[m.id]) {
+           this.data[m.id] = [];
+         }
+         this.data[m.id].push(
+           {
+             id : n.id,
+             name: n.name,
+             model_id: m.id,
+             font: n.font,
+             // location 即container div的style
+             location: {
+               width: $('#' + n.id).css('width'),
+               height: $('#' + n.id).css('height'),
+               left: $('#' + n.id).position().left + 'px',
+               top: $('#' + n.id).position().top + 'px',
+             },
+             //  style即shape div的style
+             style: {
+               background: $('#shape_' + n.id).css('background'),
+               width: $('#shape_' + n.id).css('width'),
+               height: $('#shape_' + n.id).css('height')
+             }
+           });
+       }
+     }
+     const connections = [];
+     $.each(this.JsPlumb.getConnections(),  (idx, connection) => {
+       connections.push({
+         connectionId: connection.id,
+         pageSourceId: connection.sourceId,
+         pageTargetId: connection.targetId,
+         connector: [connection.connector.type],
+         anchors: $.map(connection.endpoints, (endpoint) => {
+           return [[endpoint.anchor.x,
+             endpoint.anchor.y,
+             endpoint.anchor.orientation[0],
+             endpoint.anchor.orientation[1],
+             endpoint.anchor.offsets[0],
+             endpoint.anchor.offsets[1]]];
 
-        })
-      });
-    });
+         })
+       });
+     });
+     if (this.id) {
+       this.flowchartService.editFlowchart(this.id, {name: name, data: {nodes: this.data, connections: connections}}).then(() => {
+         this.msgs.push({severity: 'success', summary: '', detail: '保存流程图成功, 3秒后跳转到文件列表'});
+         setTimeout(() => {
+           this.msgs = [];
+           this.router.navigateByUrl('/full/filelist');
+         }, 3000 );
+       });
+     } else {
+       this.flowchartService.addFlowchart({name: name, data: {nodes: this.data, connections: connections}}).then(()=> {
+         this.msgs.push({severity: 'success', summary: '', detail: '保存流程图成功， 3秒后跳转到文件列表'});
+         setTimeout(() => {
+           this.msgs = [];
+           this.router.navigateByUrl('/full/filelist');
+         }, 3000 );
+       });
+     }
+   }
+
+  save() {
     if (this.id) {
-      this.flowchartService.editFlowchart(this.id, {name: '123', data: {nodes: this.data, connections: connections}});
+      this.modifyFilename(this.filename);
     } else {
-      // this.flowchartService.addFlowchart({name: '123', data: {nodes: this.data, connections: connections}});
+      $('#myModal').modal();
     }
-    // this.util.setData({nodes: this.data, connections: connections});
   }
 }

@@ -43,8 +43,8 @@ server.post('/api/flowcharts', function (req, res, next) {
     id: uuid(),
     name:request.name,
     content: request.data,
-    create_at:  new Date().toISOString(),
-    modify_at: ''
+    create_at:  new Date().toLocaleTimeString(),
+    modify_at:new Date().toLocaleTimeString()
   });
   res.send(201,req.body);
 });
@@ -53,9 +53,9 @@ server.put('/api/flowcharts/:id', function (req, res, next) {
   let request = JSON.parse(req.body);
   FLOWCHARTS.forEach(f => {
     if(f.id === req.params.id) {
-      f.modify_at = new Date().toISOString();
-      f.name = req.name;
-      f.content = req.data;
+      f.modify_at = new Date().toLocaleTimeString();
+      f.name = request.name;
+      if(request.data) { f.content = request.data; }
       res.send(200,req.body);
       return
     }

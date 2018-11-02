@@ -31,9 +31,11 @@ import {SplitButtonModule} from 'primeng/splitbutton';
 import {MessagesModule} from 'primeng/messages';
 import {MenubarModule} from 'primeng/menubar';
 import {DialogModule} from 'primeng/dialog';
+import {ModifyFilenameComponent} from './flowchart/modify-filename.component';
 @NgModule({
   declarations: [
     AppComponent, HomeComponent, HomeNavComponent, FlowchartComponent, FlowchartNavComponent, ContextMenuComponent,
+    ModifyFilenameComponent,
     NumberInputComponent, MyFlowchartComponent, LoginComponent, FullComponent, FileListComponent, FileListNavComponent
   ],
   imports: [

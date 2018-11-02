@@ -15,7 +15,7 @@ export class LoginComponent  {
     const data = {username: this.username, password: this.password};
     this.flowchartService.login(data).then((res: any) => {
       localStorage.setItem('username', JSON.parse(res).username);
-      this.router.navigateByUrl('/full/flowchart');
+      this.router.navigateByUrl('/full/filelist');
     }, (err) => {
       console.error(err.error.errorMsg);
       this.showError(err.error.errorMsg);

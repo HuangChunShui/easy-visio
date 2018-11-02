@@ -1,3 +1,6 @@
+<style>
+  .empty {font-size: 12px;color: #147be1}
+</style>
 <button pButton type = "button"
         class="ui-button-success"
         icon="pi pi-plus"
@@ -27,4 +30,8 @@
         </button>
         <button pButton style="padding:0px;border-width: 0px" (click)="edit(file.id)" label="编辑"></button></td>
   </ng-template>
+  <ng-template id = "summary" pTemplate="summary">
+   <label  *ngIf="filelist.length == 0" class="empty" (click)="add()"> 您还没有流程图，点击新建<i class="fa fa-fw fa-plus"></i></label>
+  </ng-template>
 </p-table>
+<modify-filename (filenameChange)="modifyFilename($event)"></modify-filename>
